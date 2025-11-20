@@ -1,0 +1,17 @@
+.navigation-menu {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.navigation-menu .arrow-button {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+.navigation-menu .arrow {
+    visibility: hidden;
+}
+
+.navigation-menu .menu-item .label {
+    -fx-alignment: CENTER;
+}
