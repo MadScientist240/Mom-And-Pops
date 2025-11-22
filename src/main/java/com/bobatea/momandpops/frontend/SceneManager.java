@@ -5,6 +5,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class SceneManager{
     private static SceneManager instance;
     private Stage primaryStage;
@@ -33,6 +35,7 @@ public class SceneManager{
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e){
+            System.out.println(e.getMessage());
             System.out.println("Failed to load scene: " + fxmlName + "\nWas a matching fxml created?");
         }
     }

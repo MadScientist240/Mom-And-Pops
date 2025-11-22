@@ -47,6 +47,10 @@
     <!-- Content Area -->
     <VBox style="-fx-background-color: #d4c5a9;" VBox.vgrow="ALWAYS">
 
+        <!-- Inside your tan VBox content area -->
+        <Button text="Test Popup" onAction="#testCustomizePopup"
+                style="-fx-font-size: 16px; -fx-padding: 10 20;"/>
+
         <!-- Operating Hours -->
         <HBox alignment="CENTER" style="-fx-padding: 15;">
             <Label text="Operating Hours: Monday - Thurs. (9 am - 11 pm) Friday - Sat. (11 am - 12 am)"
@@ -78,7 +82,8 @@
                         fx:id="locationButton"
                         style="-fx-background-color: #C85050; -fx-text-fill: black;
                        -fx-font-size: 13px; -fx-padding: 12 30;
-                       -fx-background-radius: 35; -fx-cursor: hand;"/>
+                       -fx-background-radius: 35; -fx-cursor: hand;"
+                        onAction="#openMapsUrl"/>
 
                 <Label text="(770)-555-1212"
                        style="-fx-font-size: 14px; -fx-font-weight: bold;"/>

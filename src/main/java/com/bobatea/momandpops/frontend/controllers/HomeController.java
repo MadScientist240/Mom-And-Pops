@@ -4,25 +4,27 @@ import com.bobatea.momandpops.frontend.SceneManager;
 import javafx.fxml.FXML;
 import java.awt.Desktop;
 import java.net.URI;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import com.bobatea.momandpops.backend.models.UserSession;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class HomeController {
 
-    @FXML
-    private MenuButton navigationMenu;
+    @FXML private MenuButton navigationMenu;
 
-    @FXML
-    private MenuButton profileMenu;
+    @FXML private MenuButton profileMenu;
 
-    @FXML
-    private Button locationButton;
+    @FXML private Button locationButton;
 
     public void initialize(){
         boolean loggedIn = UserSession.getInstance().isLoggedIn();
         buildProfileMenu(loggedIn);
         buildNavigationMenu();
-        locationButton.setOnAction(e -> openMapsUrl());
     }
 
     public void buildProfileMenu(boolean loggedIn){
@@ -65,9 +67,6 @@ public class HomeController {
                 break;
             case "Logout":
                 SceneManager.getInstance().navigateTo("logout-page.fxml");
-                // Extra For Development
-                UserSession.getInstance().logout();
-                SceneManager.getInstance().navigateTo("home-page.fxml");
                 break;
             default:
                 System.out.println("Unknown item case. Check for syntax errors");
@@ -95,6 +94,7 @@ public class HomeController {
         }
     }
 
+    @FXML
     private void openMapsUrl(){
         try {
             java.awt.Desktop.getDesktop().browse(new java.net.URI("https://maps.app.goo.gl/nMcBYaVDYwCnGLyKA"));
@@ -114,5 +114,24 @@ public class HomeController {
             item.setOnAction(e -> handleNavigationMenuClick(text));
         }
         return item;
+    }
+
+    @FXML
+    private void testCustomizePopup() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/bobatea/momandpops/views/item-popup.fxml")
+            );
+            Parent root = loader.load();
+
+            Stage popup = new Stage();
+            popup.setTitle("Customize Item");
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.setScene(new Scene(root));
+            popup.showAndWait();
+        } catch (Exception e) {
+            System.err.println("Failed to load popup");
+            e.printStackTrace();
+        }
     }
 }
