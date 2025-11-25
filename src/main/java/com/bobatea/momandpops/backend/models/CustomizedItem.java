@@ -4,20 +4,21 @@ import java.util.ArrayList;
 
 public class CustomizedItem {
     private ArrayList<String> selectedToppings;
-    public double totalCost;
+    private double totalCost;
     private String color;
     private String size;
     private String crust;
-    public int quantity;
+    private int quantity;
     public String name;
 
-    public CustomizedItem(String name, int quantity, double baseCost){
+    public CustomizedItem(String name, double baseCost){
         this.name = name;
-        this.quantity = quantity;
+        this.quantity = 1;
         this.totalCost = baseCost;
+        selectedToppings = new ArrayList<String>();
     }
 
-    public void addSelectedTopping(String topping, Double charge){
+    public void addSelectedTopping(String topping, double charge){
         selectedToppings.add(topping);
         totalCost += charge;
     }
@@ -42,15 +43,25 @@ public class CustomizedItem {
         this.color = color;
     }
 
-    public void setSize(String size) {
+    public void setSize(String size, double charge) {
         this.size = size;
+        totalCost += charge;
     }
 
     public String getCrust() {
         return crust;
     }
 
-    public void setCrust(String crust) {
+    public void setCrust(String crust, double charge) {
         this.crust = crust;
+        totalCost += charge;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
