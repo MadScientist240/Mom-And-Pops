@@ -1,6 +1,5 @@
 package com.bobatea.momandpops;
 
-import com.bobatea.momandpops.backend.data.DatabaseManager;
 import com.bobatea.momandpops.backend.models.Item;
 import com.bobatea.momandpops.frontend.SceneManager;
 import javafx.application.Application;

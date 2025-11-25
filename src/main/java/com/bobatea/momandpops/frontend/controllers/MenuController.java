@@ -1,6 +1,5 @@
 package com.bobatea.momandpops.frontend.controllers;
 
-import com.bobatea.momandpops.backend.data.DatabaseManager;
 import com.bobatea.momandpops.backend.models.Item;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
