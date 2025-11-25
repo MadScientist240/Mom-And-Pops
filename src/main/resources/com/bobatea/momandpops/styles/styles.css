@@ -15,3 +15,64 @@
 .navigation-menu .menu-item .label {
     -fx-alignment: CENTER;
 }
+
+/* ===== TEXT ===== */
+.page-title {
+    -fx-font-size: 35px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.medium-text {
+    -fx-font-size: 18px;
+}
+
+.small-text {
+    -fx-font-size: 13px;
+    -fx-line-spacing: 0.5em;
+}
+
+/* ===== Colors ===== */
+.tan-background {
+    -fx-background-color: #d4c5a9;
+}
+
+/* ===== CARDS ===== */
+.card {
+    -fx-background-color: white;
+    -fx-border-color: #dddddd;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 15;
+}
+
+.card:hover {
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 2;
+}
+
+/* ===== BUTTONS ===== */
+.primary-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.secondary-button {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #333333;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.back-button {
+    -fx-background-color: #f0f0f0;
+
+}

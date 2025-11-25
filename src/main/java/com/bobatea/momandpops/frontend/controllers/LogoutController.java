@@ -48,7 +48,7 @@ public class LogoutController {
     }
 
     private void startLoadingAnimation(){
-        RotateTransition rotate = new RotateTransition(Duration.seconds(2), spinningImage);
+        RotateTransition rotate = new RotateTransition(Duration.seconds(1.5), spinningImage);
         rotate.setByAngle(360);
         rotate.setCycleCount(RotateTransition.INDEFINITE);
         rotate.play();

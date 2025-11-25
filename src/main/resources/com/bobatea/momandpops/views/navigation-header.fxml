@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.bobatea.momandpops.frontend.controllers.HeaderController"
+      style="-fx-padding: 6 0 6 8; -fx-background-color: white;">
+
+    <MenuButton fx:id="navigationMenu" translateY="5"
+                style="-fx-background-color: transparent; -fx-border-color: transparent;">
+        <graphic>
+            <ImageView fitHeight="30" preserveRatio="true">
+                <Image url="@../icons/menulist.png"/>
+            </ImageView>
+        </graphic>
+        <styleClass>
+            <String fx:value="navigation-menu"/>
+        </styleClass>
+    </MenuButton>
+
+    <!-- Logo (can be hidden) -->
+    <ImageView fx:id="logoImage" fitHeight="50" preserveRatio="true">
+        <Image url="@../images/logo.png"/>
+    </ImageView>
+
+    <!-- Title label (can be hidden) -->
+    <Label fx:id="titleLabel" visible="false" managed="false"
+           styleClass="page-title"/>
+
+    <Region HBox.hgrow="ALWAYS"/>
+
+    <MenuButton fx:id="profileMenu" translateY="5"
+                style="-fx-background-color: transparent; -fx-border-color: transparent;">
+        <graphic>
+            <ImageView fitHeight="30" preserveRatio="true">
+                <Image url="@../icons/profile.png"/>
+            </ImageView>
+        </graphic>
+        <styleClass>
+            <String fx:value="navigation-menu"/>
+        </styleClass>
+    </MenuButton>
+</HBox>

@@ -6,7 +6,6 @@ import com.bobatea.momandpops.backend.models.Item;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -14,7 +13,7 @@ public class ItemPopupController {
     @FXML private VBox optionsContainer;
     @FXML private Label itemNameLabel;
     @FXML private TextField quantityField;
-    @FXML private HBox errorContainer;
+    @FXML private VBox errorContainer;
 
     // Sections
     @FXML private VBox sizeSection;
@@ -34,40 +33,11 @@ public class ItemPopupController {
     private ToggleGroup colorToggleGroup = new ToggleGroup();
     private ToggleGroup crustToggleGroup = new ToggleGroup();
 
-    public void initialize(){
-        testPopup();
-    }
+    public void initialize(){}
 
     public void setItem(Item item){
         this.item = item;
         configurePopup();
-    }
-
-    private void testPopup() {
-        // Temporary test - show all sections
-        itemNameLabel.setText("Test Pizza");
-
-        // Add crust toppings
-        addCrustOption("Thin (+$1.50)");
-        addCrustOption("Thicc (+$1.00)");
-        addCrustOption("NOODLESSSS (+$1.00)");
-
-        // Add test sizes
-        addSizeOption("Small - $10.99");
-        addSizeOption("Medium - $12.99");
-        addSizeOption("Large - $14.99");
-
-        // Add test colors
-        addColorOption("Red");
-        addColorOption("Blue");
-        addColorOption("Green");
-
-        // Add test toppings
-        addToppingOption("Pepperoni (+$1.50)");
-        addToppingOption("Mushrooms (+$1.00)");
-        addToppingOption("Olives (+$1.00)");
-
-
     }
 
     private void addSizeOption(String sizeText) {
@@ -99,22 +69,28 @@ public class ItemPopupController {
         // Pull size options
         if(item.hasSizes){
             for(String size : item.getSizes().keySet()){
-                addSizeOption(size + "+(" + item.getSizes().get(size) + ")");
+                addSizeOption(size + " +(" + item.getSizes().get(size) + ")");
             }
+        } else {
+            setVboxVisibility(sizeSection, false);
         }
 
         // Pull topping options
         if(item.hasToppings){
-            for(String topping : item.getSizes().keySet()){
-                addToppingOption(topping + "+(" + item.getSizes().get(topping) + ")");
+            for(String topping : item.getToppings().keySet()){
+                addToppingOption(topping + " +(" + item.getToppings().get(topping) + ")");
             }
+        } else {
+            setVboxVisibility(toppingsSection, false);
         }
 
         // Pull color options
         if(item.hasCrust){
-            for(String crust : item.getSizes().keySet()){
-                addCrustOption(crust + "+(" + item.getSizes().get(crust) + ")");
+            for(String crust : item.getCrusts().keySet()){
+                addCrustOption(crust + " +(" + item.getCrusts().get(crust) + ")");
             }
+        } else {
+            setVboxVisibility(crustSection, false);
         }
 
         // Pull color options
@@ -122,57 +98,63 @@ public class ItemPopupController {
             for(String color : item.getColors()){
                 addColorOption(color);
             }
+        } else {
+            setVboxVisibility(colorSection, false);
         }
     }
 
     public void handleAddToCart() {
-        errorContainer.getChildren().removeAll();
-        CustomizedItem cartItem = new CustomizedItem(item.name, Integer.parseInt(quantityField.getText()), item.getBasePrice());
+        errorContainer.getChildren().clear();
+        CustomizedItem cartItem = new CustomizedItem(item.name, item.getBasePrice());
 
         if(item.getType() == "MENU"){
             RadioButton selectedSize = (RadioButton) sizeToggleGroup.getSelectedToggle();
             RadioButton selectedCrust = (RadioButton) crustToggleGroup.getSelectedToggle();
             if(selectedCrust == null){
-                Label crustError = new Label();
-                crustError.setText("Please pick a crust type.");
-                errorContainer.getChildren().add(crustError);
+                setErrorLabel("Please pick a crust type");
                 return;
             } else if(selectedSize == null){
                 Label sizeError = new Label();
-                sizeError.setText("Please pick a size type.");
-                errorContainer.getChildren().add(sizeError);
+                setErrorLabel("Please pick a size");
                 return;
             } else {
-                cartItem.setCrust(selectedCrust.getText());
-                cartItem.setSize(selectedSize.getText());
+                String crustString = stripSelectionName(selectedCrust.getText());
+                cartItem.setCrust(crustString, item.getCrusts().get(crustString));
+
+                String sizeString = stripSelectionName(selectedSize.getText());
+                cartItem.setSize(sizeString, item.getSizes().get(sizeString));
+            }
+
+            for(Node node : toppingsContainer.getChildren()){
+                if(node instanceof CheckBox && ((CheckBox) node).isSelected()){
+                    String strippedToppingName = stripSelectionName(((CheckBox) node).getText());
+                    cartItem.addSelectedTopping(strippedToppingName, item.getToppings().get(strippedToppingName));
+                } else {
+                    setErrorLabel("Please pick at least 1 topping");
+                    return;
+                }
             }
         } else if(item.getType() == "MERCH"){
             RadioButton selectedSize = (RadioButton) sizeToggleGroup.getSelectedToggle();
             RadioButton selectedColor = (RadioButton) colorToggleGroup.getSelectedToggle();
             if(selectedColor == null){
-                Label colorError = new Label();
-                colorError.setText("Please pick a color.");
-                errorContainer.getChildren().add(colorError);
+                setErrorLabel("Please pick a color");
                 return;
             } else if(selectedSize == null){
                 Label sizeError = new Label();
-                sizeError.setText("Please pick a size type.");
-                errorContainer.getChildren().add(sizeError);
+                setErrorLabel("Please pick a size");
                 return;
             } else {
                 cartItem.setColor(selectedColor.getText());
-                cartItem.setSize(selectedSize.getText());
+
+                String sizeString = stripSelectionName(selectedSize.getText());
+                cartItem.setSize(sizeString, item.getSizes().get(sizeString));
             }
         }
 
-        for(Node node : toppingsContainer.getChildren()){
-            if(node instanceof CheckBox){
-                // Add the topping to the customized item with the right price
-                cartItem.addSelectedTopping(((CheckBox) node).getText(), item.getToppings().get(((CheckBox) node).getText()));
-            }
-        }
+        cartItem.setQuantity(Integer.parseInt(quantityField.getText()));
         Cart.getInstance().addItem(cartItem);
-        
+        closePopup();
     }
 
     @FXML
@@ -196,5 +178,24 @@ public class ItemPopupController {
     private void closePopup(){
         Stage stage = (Stage) quantityField.getScene().getWindow();
         stage.close();
+    }
+
+    /*
+     *  Misc. helper functions
+     */
+    private void setVboxVisibility(VBox vb, boolean visibility){
+        vb.setVisible(visibility);
+        vb.setManaged(visibility);
+    }
+
+    private void setErrorLabel(String message){
+        Label error = new Label();
+        error.setText(message);
+        errorContainer.getChildren().add(error);
+    }
+
+    private String stripSelectionName(String selectionText){
+        int regexIndex = selectionText.indexOf("+");
+        return selectionText.substring(0, regexIndex - 1);
     }
 }

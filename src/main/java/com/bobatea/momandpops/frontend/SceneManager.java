@@ -10,6 +10,7 @@ import java.io.IOException;
 public class SceneManager{
     private static SceneManager instance;
     private Stage primaryStage;
+    private Scene previousScene;
 
     private SceneManager(){}
 
@@ -34,9 +35,21 @@ public class SceneManager{
             scene.getStylesheets().add(getClass().getResource("/com/bobatea/momandpops/styles/styles.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
+            previousScene = scene;
         } catch (Exception e){
             System.out.println(e.getMessage());
             System.out.println("Failed to load scene: " + fxmlName + "\nWas a matching fxml created?");
+        }
+    }
+
+    public void navigateToLast(){
+        try{
+            previousScene.getStylesheets().add(getClass().getResource("/com/bobatea/momandpops/styles/styles.css").toExternalForm());
+            primaryStage.setScene(previousScene);
+            primaryStage.show();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to load past scene.");
         }
     }
 }

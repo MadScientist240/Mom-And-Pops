@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.bobatea.momandpops.frontend.controllers.MenuController">
+
+    <!-- Header at top -->
+    <fx:include fx:id="navigationHeader" source="navigation-header.fxml"/>
+
+    <!-- Content area (category and items views) -->
+    <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: #d4c5a9;">
+
+        <!-- Category View -->
+        <VBox fx:id="categoryView" style="-fx-background-color: #d4c5a9;">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
+
+            <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;">
+                <FlowPane fx:id="categoryGrid"
+                          hgap="20"
+                          vgap="20"
+                          translateY="150"
+                          style="-fx-background-color: transparent;"
+                          alignment="CENTER"/>
+            </ScrollPane>
+        </VBox>
+
+        <!-- Items View -->
+        <VBox fx:id="itemsView" visible="false" style="-fx-background-color: #d4c5a9;">
+            <padding>
+                <Insets top="20" right="30" bottom="30" left="30"/>
+            </padding>
+
+            <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 0 0 20 0; -fx-background-color: #d4c5a9;">
+                <Button fx:id="backButton"
+                        text="← Back"
+                        onAction="#showCategoryView"
+                        style="-fx-background-color: transparent;
+                               -fx-font-size: 14px;
+                               -fx-cursor: hand;"/>
+                <Label fx:id="categoryTitle"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;">
+                <FlowPane fx:id="itemsGrid"
+                          hgap="20"
+                          vgap="20"
+                          style="-fx-background-color: transparent;"/>
+            </ScrollPane>
+        </VBox>
+
+    </StackPane>
+
+</VBox>

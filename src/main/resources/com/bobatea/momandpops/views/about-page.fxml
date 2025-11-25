@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      styleClass="tan-background">
+    <!-- Header Section -->
+    <fx:include fx:id="header" source="navigation-header.fxml" spacing="25"/>
+
+    <HBox alignment="CENTER" translateY="30">
+        <Label text="Mom and Pop"
+               styleClass="page-title"/>
+    </HBox>
+
+    <HBox spacing="20" style="-fx-padding: 6 0 6 30;" translateY="70">
+        <ImageView fitHeight="100" preserveRatio="true">
+            <Image url="@../images/mom.png"/>
+        </ImageView>
+        <Label styleClass="small-text" wrapText="true" maxWidth="450" text="Born in Asheville, North Carolina, Macy discovered her passion for cooking in her grandmother’s kitchen, where she learned the art of homemade sauces and fresh herbs. She later attended a culinary program specializing in Italian cuisine and spent several years working at a farm-to-table restaurant, mastering flavor pairings."/>
+
+        <ImageView fitHeight="100" preserveRatio="true">
+            <Image url="@../images/pop.png"/>
+        </ImageView>
+        <Label styleClass="small-text" wrapText="true" maxWidth="450" text="Raised in Cleveland, Ohio, Bob got his start working in his family’s small bakery, where he developed a knack for dough-making and the business side of food service. He later trained under a master pizzaiolo in Chicago, learning traditional wood-fired techniques."/>
+    </HBox>
+
+    <HBox alignment="CENTER" translateY="170">
+        <Label styleClass="small-text" wrapText="true" maxWidth="800" text="Macy and Bob combine their talents to create the perfect pizza experience—Macy brings her culinary creativity and love for fresh, vibrant flavors, while Bob focuses on authentic techniques and flawless execution. Together, they balance innovation with tradition, turning Mom &amp; Pops into a warm, welcoming place where every slice tells their story. Opened in 2018, Macy and Bob’s pizza shop in Marietta, Georgia has become a go-to neighborhood spot where everything is made with care—from the dough to the sauce. Locals love the relaxed atmosphere, fresh ingredients, and the perfect blend of classic and creative pizzas. If you’re looking for good food, genuine people, and a warm, welcoming experience, please stop by or contact us via:"/>
+    </HBox>
+
+    <HBox alignment="CENTER" translateY="250" spacing="10" styleClass="medium-text">
+        <Label wrapText="true" maxWidth="800" text="Email: momandpopspizzeria@gmail.com"/>
+        <Label wrapText="true" maxWidth="800" text="Phone: 770-555-1212"/>
+        <Label wrapText="true" maxWidth="800" text="680 Arntson Rd, suite 161 Marietta, ga 30060"/>
+    </HBox>
+</VBox>

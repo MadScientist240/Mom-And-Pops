@@ -21,6 +21,8 @@ public class Cart {
 
     public void addItem(CustomizedItem item){
         itemsInCart.add(item);
+        System.out.println("ITEM ADDED!!!!");
+        System.out.println(item.name + " " + item.getTotalCost());
     }
 
     public ArrayList<CustomizedItem> getItems() {
