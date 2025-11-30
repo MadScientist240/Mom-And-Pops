@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.bobatea.momandpops.frontend.controllers."
-      style="-fx-background-color: #d4c5a9;"
-      alignment="TOP_CENTER">
+<StackPane alignment="TOP_CENTER" style="-fx-background-color: #d4c5a9;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bobatea.momandpops.frontend.controllers.LoginPageController">
+    <VBox alignment="center" styleClass="tan-background">
+        <HBox alignment="CENTER" prefHeight="600" prefWidth="1200" style="-fx-background-color: white;">
+            <VBox alignment="CENTER" prefHeight="517.0" prefWidth="600" spacing="15.0" style="-fx-background-color: white;">
+                <TextField fx:id="usernameField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Phone Number" />
+                <AnchorPane maxWidth="300.0" prefWidth="300.0">
+                    <Label fx:id="usernameErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
+                </AnchorPane>
+                <PasswordField fx:id="passwordField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Password" />
+                <AnchorPane maxWidth="300.0" prefWidth="300.0">
+                    <Label fx:id="passwordErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
+                </AnchorPane>
+                <Button fx:id="loginButton" onAction="#handleLoginButton" style="-fx-background-color: #C85050; -fx-text-fill: black; -fx-font-size: 13px; -fx-padding: 12 30; -fx-background-radius: 10; -fx-cursor: hand;" text="Login" textAlignment="CENTER" />
+            </VBox>
 
-    <HBox alignment="CENTER" translateY="100">
-        <Label text="Successfully Logged Out!"
-               styleClass="page-title"/>
-    </HBox>
+            <VBox alignment="CENTER" prefHeight="600" prefWidth="600" spacing="15" style="-fx-background-color: white;">
+                <Label styleClass="medium-text" text="Dont have an account?" />
+                <Button fx:id="signupButton" onAction="#handleSignupButton" style="-fx-background-color: #C85050; -fx-text-fill: black; -fx-font-size: 13px; -fx-padding: 12 30; -fx-background-radius: 10; -fx-cursor: hand;" text="Signup" textAlignment="CENTER" />
+            </VBox>
+        </HBox>
 
-    <HBox alignment="CENTER" translateY="250">
-        <Label fx:id="timerText" styleClass="medium-text"/>
-    </HBox>
+    </VBox>
+     <Label alignment="TOP_CENTER" styleClass="page-title" text="Login" />
 
-    <ImageView fx:id="spinningImage" fitHeight="60" preserveRatio="true" translateY="300">
-        <Image url="@../icons/pizzaspinner.png"/>
-    </ImageView>
-</VBox>
+</StackPane>

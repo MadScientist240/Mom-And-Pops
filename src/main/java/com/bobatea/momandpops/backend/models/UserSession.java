@@ -20,8 +20,6 @@ public class UserSession {
 
     // TODO: Handle login and logout procedures
         // Intake username and password
-        // Check with DB
-        // Handle success/fail messages
     public void login(){
         // Extra for DEVELOPMENT
         isLoggedIn = true;

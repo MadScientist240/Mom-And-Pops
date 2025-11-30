@@ -34,8 +34,8 @@ public class SceneManager{
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/com/bobatea/momandpops/styles/styles.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.show();
             previousScene = scene;
+            primaryStage.show();
         } catch (Exception e){
             System.out.println(e.getMessage());
             System.out.println("Failed to load scene: " + fxmlName + "\nWas a matching fxml created?");
@@ -43,6 +43,8 @@ public class SceneManager{
     }
 
     public void navigateToLast(){
+        System.out.println("Navigating to last");
+        System.out.println(previousScene.getStylesheets().getFirst().toString());
         try{
             previousScene.getStylesheets().add(getClass().getResource("/com/bobatea/momandpops/styles/styles.css").toExternalForm());
             primaryStage.setScene(previousScene);

@@ -88,9 +88,6 @@ public class HeaderController {
 
             case "Login":
                 SceneManager.getInstance().navigateTo("login-page.fxml");
-                // FOR DEVELOPMENT ONLY
-                UserSession.getInstance().login();
-                buildProfileMenu();
                 break;
 
             case "Logout":
