@@ -28,16 +28,26 @@ public class ItemPopupController {
     @FXML private VBox crustContainer;
 
     private Item item;
+    private CustomizedItem customItem;
     private int quantity = 1;
     private ToggleGroup sizeToggleGroup = new ToggleGroup();
     private ToggleGroup colorToggleGroup = new ToggleGroup();
     private ToggleGroup crustToggleGroup = new ToggleGroup();
+    private boolean isEditMode = false;
 
     public void initialize(){}
 
     public void setItem(Item item){
         this.item = item;
-        configurePopup();
+        configurePopup(false);
+    }
+
+    public void setItem(CustomizedItem customItem){
+        this.customItem = customItem;
+        this.item = customItem.getOriginalItem();  // Store reference to original
+        this.isEditMode = true;  // Flag that we're editing
+        this.quantity = customItem.getQuantity();
+        configurePopup(true);
     }
 
     private void addSizeOption(String sizeText) {
@@ -63,49 +73,107 @@ public class ItemPopupController {
         toppingsContainer.getChildren().add(cb);
     }
 
-    private void configurePopup(){
-        itemNameLabel.setText(item.name);
+    private void configurePopup(boolean isCustomizedItem){
+        if(isCustomizedItem){
+            this.item = customItem.getOriginalItem();
+            itemNameLabel.setText(customItem.name);
 
-        // Size options
-        if(item.hasSizes){
-            for(String size : item.getSizes().keySet()){
-                addSizeOption(size + " +(" + item.getSizes().get(size) + ")");
+            // Size options
+            if(customItem.getOriginalItem().hasSizes){
+                for(String size : customItem.getOriginalItem().getSizes().keySet()){
+                    addSizeOption(size + " +(" + String.format("%.2f", item.getSizes().get(size)) + ")");
+                }
+            } else {
+                setVboxVisibility(sizeSection, false);
+            }
+
+            // Topping options
+            if(customItem.getOriginalItem().hasToppings){
+                for(String topping : customItem.getOriginalItem().getToppings().keySet()){
+                    addToppingOption(topping + " +(" + String.format("%.2f", customItem.getOriginalItem().getToppings().get(topping)) + ")");
+                }
+            } else {
+                setVboxVisibility(toppingsSection, false);
+            }
+
+            // Crust options
+            if(customItem.getOriginalItem().hasCrust){
+                for(String crust : customItem.getOriginalItem().getCrusts().keySet()){
+                    addCrustOption(crust + " +(" + String.format("%.2f", customItem.getOriginalItem().getCrusts().get(crust)) + ")");
+                }
+            } else {
+                setVboxVisibility(crustSection, false);
+            }
+
+            // Color options
+            if(customItem.getOriginalItem().hasColors){
+                for(String color : customItem.getOriginalItem().getColors()){
+                    addColorOption(color);
+                }
+            } else {
+                setVboxVisibility(colorSection, false);
             }
         } else {
-            setVboxVisibility(sizeSection, false);
+            itemNameLabel.setText(item.name);
+
+            // Size options
+            if(item.hasSizes){
+                for(String size : item.getSizes().keySet()){
+                    addSizeOption(size + " +(" + String.format("%.2f", item.getSizes().get(size)) + ")");
+                }
+            } else {
+                setVboxVisibility(sizeSection, false);
+            }
+
+            // Topping options
+            if(item.hasToppings){
+                for(String topping : item.getToppings().keySet()){
+                    addToppingOption(topping + " +(" + String.format("%.2f", item.getToppings().get(topping)) + ")");
+                }
+            } else {
+                setVboxVisibility(toppingsSection, false);
+            }
+
+            // Crust options
+            if(item.hasCrust){
+                for(String crust : item.getCrusts().keySet()){
+                    addCrustOption(crust + " +(" + String.format("%.2f", item.getCrusts().get(crust)) + ")");
+                }
+            } else {
+                setVboxVisibility(crustSection, false);
+            }
+
+            // Color options
+            if(item.hasColors){
+                for(String color : item.getColors()){
+                    addColorOption(color);
+                }
+            } else {
+                setVboxVisibility(colorSection, false);
+            }
         }
 
-        // Topping options
-        if(item.hasToppings){
-            for(String topping : item.getToppings().keySet()){
-                addToppingOption(topping + " +(" + item.getToppings().get(topping) + ")");
+        // Preselecting chosen options if editing
+        if(isEditMode){
+            if (!customItem.getSize().equals("")) {
+                preselectSize(customItem.getSize());
             }
-        } else {
-            setVboxVisibility(toppingsSection, false);
-        }
-
-        // Crust options
-        if(item.hasCrust){
-            for(String crust : item.getCrusts().keySet()){
-                addCrustOption(crust + " +(" + item.getCrusts().get(crust) + ")");
+            if (!customItem.getCrust().equals("")) {
+                preselectCrust(customItem.getCrust());
             }
-        } else {
-            setVboxVisibility(crustSection, false);
-        }
-
-        // Color options
-        if(item.hasColors){
-            for(String color : item.getColors()){
-                addColorOption(color);
+            if (!customItem.getColor().equals("")) {
+                preselectColor(customItem.getColor());
             }
-        } else {
-            setVboxVisibility(colorSection, false);
+            if (!customItem.getSelectedModifications().isEmpty()) {
+                preselectToppings(customItem.getSelectedModifications());
+            }
+            quantityField.setText(Integer.toString(quantity));
         }
     }
 
     public void handleAddToCart() {
         errorContainer.getChildren().clear();
-        CustomizedItem cartItem = new CustomizedItem(item.name, item.getBasePrice());
+        CustomizedItem cartItem = new CustomizedItem(item.name, item.getBasePrice(), item.imagePath, item);
 
         if ("MENU".equals(item.getType())) {
             RadioButton selectedSize = (RadioButton) sizeToggleGroup.getSelectedToggle();
@@ -130,7 +198,7 @@ public class ItemPopupController {
                 if(node instanceof CheckBox cb && cb.isSelected()){
                     toppingChosen = true;
                     String strippedToppingName = stripSelectionName(cb.getText());
-                    cartItem.addSelectedTopping(
+                    cartItem.addModification(
                             strippedToppingName,
                             item.getToppings().get(strippedToppingName)
                     );
@@ -160,7 +228,13 @@ public class ItemPopupController {
         }
 
         cartItem.setQuantity(Integer.parseInt(quantityField.getText()));
-        Cart.getInstance().addItem(cartItem);
+
+        if (isEditMode) {
+            Cart.getInstance().removeItem(customItem);  // Remove old one
+            Cart.getInstance().addItem(cartItem);         // Add updated one
+        } else {
+            Cart.getInstance().addItem(cartItem);
+        }
         closePopup();
     }
 
@@ -203,5 +277,48 @@ public class ItemPopupController {
     private String stripSelectionName(String selectionText){
         int regexIndex = selectionText.indexOf("+");
         return selectionText.substring(0, regexIndex - 1);
+    }
+
+    private void preselectSize(String selectedSize) {
+        for (Toggle toggle : sizeToggleGroup.getToggles()) {
+            RadioButton rb = (RadioButton) toggle;
+            if (rb.getText().startsWith(selectedSize)) {
+                rb.setSelected(true);
+                break;
+            }
+        }
+    }
+
+    private void preselectCrust(String selectedCrust) {
+        for (Toggle toggle : crustToggleGroup.getToggles()) {
+            RadioButton rb = (RadioButton) toggle;
+            if (rb.getText().startsWith(selectedCrust)) {
+                rb.setSelected(true);
+                break;
+            }
+        }
+    }
+
+    private void preselectColor(String selectedColor) {
+        for (Toggle toggle : colorToggleGroup.getToggles()) {
+            RadioButton rb = (RadioButton) toggle;
+            if (rb.getText().equals(selectedColor)) {
+                rb.setSelected(true);
+                break;
+            }
+        }
+    }
+
+    private void preselectToppings(java.util.List<String> selectedToppings) {
+        for (Node node : toppingsContainer.getChildren()) {
+            if (node instanceof CheckBox cb) {
+                for (String topping : selectedToppings) {
+                    if (cb.getText().startsWith(topping)) {
+                        cb.setSelected(true);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

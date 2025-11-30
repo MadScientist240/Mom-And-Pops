@@ -148,7 +148,7 @@ public class DatabaseManager {
                     1.99,
                     true,
                     false,
-                    ""
+                    "/com/bobatea/momandpops/images/sprite.png"
             );
             itemsCache.add(soda);
 

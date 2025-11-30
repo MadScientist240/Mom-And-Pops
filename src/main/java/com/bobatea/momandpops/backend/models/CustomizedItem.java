@@ -3,23 +3,29 @@ package com.bobatea.momandpops.backend.models;
 import java.util.ArrayList;
 
 public class CustomizedItem {
-    private ArrayList<String> selectedToppings;
+    private ArrayList<String> selectedModifications;
     private double totalCost;
-    private String color;
-    private String size;
-    private String crust;
+    private double baseCost;
+    private String color = "";
+    private String size = "";
+    private String crust = "";
     private int quantity;
     public String name;
+    private String imagePath;
+    private Item originalItem;
 
-    public CustomizedItem(String name, double baseCost){
+    public CustomizedItem(String name, double baseCost, String imagePath, Item originalItem){
         this.name = name;
         this.quantity = 1;
+        this.baseCost = baseCost;
         this.totalCost = baseCost;
-        selectedToppings = new ArrayList<String>();
+        this.imagePath = imagePath;
+        this.originalItem = originalItem;
+        selectedModifications = new ArrayList<String>();
     }
 
-    public void addSelectedTopping(String topping, double charge){
-        selectedToppings.add(topping);
+    public void addModification(String modification, double charge){
+        selectedModifications.add(modification);
         totalCost += charge;
     }
 
@@ -27,8 +33,8 @@ public class CustomizedItem {
         return totalCost * quantity;
     }
 
-    public ArrayList<String> getSelectedToppings() {
-        return selectedToppings;
+    public ArrayList<String> getSelectedModifications() {
+        return selectedModifications;
     }
 
     public String getColor() {
@@ -63,5 +69,21 @@ public class CustomizedItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public double getBaseCost() {
+        return baseCost;
+    }
+
+    public Item getOriginalItem() {
+        return originalItem;
     }
 }

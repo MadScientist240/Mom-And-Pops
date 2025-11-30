@@ -71,7 +71,7 @@ public class Customer {
         return rewardPoints;
     }
 
-    public void setRewardPoints(int rewardPoints) {
-        this.rewardPoints = rewardPoints;
+    public void decrementRewardPoints() {
+        this.rewardPoints -= 10;
     }
 }

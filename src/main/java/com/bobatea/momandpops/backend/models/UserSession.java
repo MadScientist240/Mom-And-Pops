@@ -38,6 +38,7 @@ public class UserSession {
 
     public void logout(){
         this.currentCustomer = null;
+        Cart.terminateInstance();
         this.isLoggedIn = false;
     }
 }

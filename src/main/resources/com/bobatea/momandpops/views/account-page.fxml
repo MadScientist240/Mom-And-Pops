@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="720" prefWidth="1280"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.bobatea.momandpops.frontend.controllers.AccountController">
+
+    <!-- Header Section -->
+    <fx:include fx:id="navigationHeader" source="navigation-header.fxml" />
+       <HBox prefHeight="720.0" prefWidth="1280.0" styleClass="tan-background" stylesheets="@../styles/styles.css">
+             <HBox style="-fx-background-color: white; -fx-background-radius: 15;">
+                   <VBox fx:id="sectionContainer" prefHeight="658.0" prefWidth="280.0" spacing="10">
+                         <Label alignment="TOP_LEFT" prefHeight="33.0" prefWidth="280.0" text="My Information" underline="true">
+                            <font>
+                               <Font size="24.0" />
+                            </font>
+                         </Label>
+                         <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="33.0" prefWidth="280.0" text="Card Info">
+                            <font>
+                               <Font size="24.0" />
+                            </font>
+                         </Label>
+                      <HBox.margin>
+                         <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+                      </HBox.margin>
+                   </VBox>
+                   <Pane fx:id="contentContainer" prefHeight="658.0" prefWidth="921.0">
+                      <HBox.margin>
+                         <Insets bottom="35.0" right="35.0" top="35.0" />
+                      </HBox.margin>
+                   </Pane>
+                <HBox.margin>
+                   <Insets bottom="35.0" left="50.0" right="50.0" top="35.0" />
+                </HBox.margin>
+             </HBox>
+       </HBox>
+
+</VBox>

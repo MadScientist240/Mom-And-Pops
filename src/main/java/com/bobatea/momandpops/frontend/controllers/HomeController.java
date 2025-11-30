@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 public class HomeController {
 
     @FXML private Button locationButton;
-    @FXML private HBox navigationHeader;
+    @FXML private HBox header;
     @FXML private HeaderController navigationHeaderController;
 
     public void initialize(){

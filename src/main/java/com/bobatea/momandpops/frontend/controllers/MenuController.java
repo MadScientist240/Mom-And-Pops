@@ -27,7 +27,6 @@ public class MenuController {
     @FXML private FlowPane categoryGrid;
     @FXML private FlowPane itemsGrid;
     @FXML private Label categoryTitle;
-    @FXML private MenuButton navigationMenu;
     @FXML private HBox navigationHeader;
     @FXML private HeaderController navigationHeaderController;
 
