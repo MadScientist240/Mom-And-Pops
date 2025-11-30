@@ -3,7 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane alignment="TOP_CENTER" style="-fx-background-color: #d4c5a9;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bobatea.momandpops.frontend.controllers.LoginPageController">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import java.lang.String?>
+<StackPane alignment="TOP_CENTER" style="-fx-background-color: #d4c5a9;"
+           xmlns="http://javafx.com/javafx/11.0.14-internal"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.bobatea.momandpops.frontend.controllers.LoginPageController">
     <VBox alignment="center" styleClass="tan-background">
         <HBox alignment="CENTER" prefHeight="600" prefWidth="1200" style="-fx-background-color: white;">
             <VBox alignment="CENTER" prefHeight="517.0" prefWidth="600" spacing="15.0" style="-fx-background-color: white;">
@@ -25,6 +31,19 @@
         </HBox>
 
     </VBox>
-     <Label alignment="TOP_CENTER" styleClass="page-title" text="Login" />
+    <Button fx:id="homeButton" translateX="-600" translateY="10"
+                style="-fx-background-color: transparent; -fx-border-color: transparent;"
+                alignment="TOP_LEFT"
+                onAction="#handleHomeButton">
+        <graphic>
+            <ImageView fitHeight="30" preserveRatio="true">
+                <Image url="@../icons/home.png"/>
+            </ImageView>
+        </graphic>
+        <styleClass>
+            <String fx:value="navigation-menu"/>
+        </styleClass>
+    </Button>
+     <Label alignment="TOP_CENTER" styleClass="page-title" text="Login" translateY="10"/>
 
 </StackPane>

@@ -88,6 +88,24 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.panteleyev</groupId>
+        <artifactId>jpackage-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+          <name>MomAndPops</name>
+          <appVersion>1.0.0</appVersion>
+          <vendor>YourCompany</vendor>
+          <destination>target/dist</destination>
+          <input>target</input>
+          <mainJar>mom-and-pops-1.0-SNAPSHOT.jar</mainJar>
+          <mainClass>src/main/java/com/bobatea/momandpops/Main.java</mainClass>
+          <type>APP_IMAGE</type>
+          <javaOptions>
+            <option>-Dfile.encoding=UTF-8</option>
+          </javaOptions>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

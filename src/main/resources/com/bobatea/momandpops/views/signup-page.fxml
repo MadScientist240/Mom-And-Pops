@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import java.lang.String?>
+<?import javafx.scene.image.Image?>
+<StackPane alignment="TOP_CENTER" style="-fx-background-color: #d4c5a9;"
+           xmlns="http://javafx.com/javafx/11.0.14-internal"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.bobatea.momandpops.frontend.controllers.SignupPageController">
+    <VBox alignment="center" styleClass="tan-background">
+        <HBox alignment="CENTER" prefHeight="600" prefWidth="1200" style="-fx-background-color: white;">
+            <VBox alignment="CENTER" prefHeight="517.0" prefWidth="600" spacing="15.0" style="-fx-background-color: white;">
+                <TextField fx:id="nameField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Full Name" />
+                <AnchorPane maxWidth="300.0" prefWidth="300.0">
+                    <Label fx:id="nameErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
+                </AnchorPane>
+
+                <TextField fx:id="phoneField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Phone Number" />
+                <AnchorPane maxWidth="300.0" prefWidth="300.0">
+                    <Label fx:id="phoneErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
+                </AnchorPane>
+
+                <TextField fx:id="emailField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Email" />
+                <AnchorPane maxWidth="300.0" prefWidth="300.0">
+                    <Label fx:id="emailErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
+                </AnchorPane>
+
+                <TextField fx:id="addressField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Address" />
+                <AnchorPane maxWidth="300.0" prefWidth="300.0">
+                    <Label fx:id="addressErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
+                </AnchorPane>
+
+                <PasswordField fx:id="passwordField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Password" />
+                <AnchorPane maxWidth="300.0" prefWidth="300.0">
+                    <Label fx:id="passwordErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
+                </AnchorPane>
+
+                <Button fx:id="signupButton" onAction="#handleSignupButton" style="-fx-background-color: #C85050; -fx-text-fill: black; -fx-font-size: 13px; -fx-padding: 12 30; -fx-background-radius: 10; -fx-cursor: hand;" text="Sign Up" textAlignment="CENTER" />
+            </VBox>
+
+            <VBox alignment="CENTER" prefHeight="600" prefWidth="600" spacing="15" style="-fx-background-color: white;">
+                <Label styleClass="medium-text" text="Already have an account?" />
+                <Button fx:id="loginButton" onAction="#handleLoginButton" style="-fx-background-color: #C85050; -fx-text-fill: black; -fx-font-size: 13px; -fx-padding: 12 30; -fx-background-radius: 10; -fx-cursor: hand;" text="Login" textAlignment="CENTER" />
+            </VBox>
+        </HBox>
+
+    </VBox>
+    <Button fx:id="homeButton" translateX="-600" translateY="10"
+            style="-fx-background-color: transparent; -fx-border-color: transparent;"
+            alignment="TOP_LEFT"
+            onAction="#handleHomeButton">
+        <graphic>
+            <ImageView fitHeight="30" preserveRatio="true">
+                <Image url="@../icons/home.png"/>
+            </ImageView>
+        </graphic>
+        <styleClass>
+            <String fx:value="navigation-menu"/>
+        </styleClass>
+    </Button>
+    <Label alignment="TOP_CENTER" styleClass="page-title" text="Sign Up" translateY="10"/>
+
+</StackPane>

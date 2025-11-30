@@ -2,6 +2,7 @@ package com.bobatea.momandpops.backend.models;
 
 public class Customer {
     private int id;
+    private static int nextId = 1000;
     private String name;
     private String phone;
     private String email;
@@ -9,8 +10,8 @@ public class Customer {
     private String password;
     private int rewardPoints;
 
-    public Customer(int id, String name, String phone, String email, String address, String password, int rewardPoints) {
-        this.id = id;
+    public Customer(String name, String phone, String email, String address, String password, int rewardPoints) {
+        this.id = nextId++;
         this.name = name;
         this.phone = phone;
         this.email = email;
