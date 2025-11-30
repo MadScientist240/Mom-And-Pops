@@ -10,7 +10,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         primaryStage.setTitle("Mom & Pops GUI");
         primaryStage.setResizable(false);
 

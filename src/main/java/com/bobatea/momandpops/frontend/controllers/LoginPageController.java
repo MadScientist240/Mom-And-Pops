@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class LoginPageController {
@@ -45,8 +46,11 @@ public class LoginPageController {
         boolean passwordFormattedProperly = checkPasswordFormatting();
 
         if(usernameFormattedProperly && passwordFormattedProperly){
-            UserSession.getInstance().login(DatabaseManager.findCustomerByPhone(usernameField.getText()));
-            SceneManager.getInstance().navigateToLast();
+            if(DatabaseManager.findCustomerByPhone(usernameField.getText()).isEmpty()){
+                usernameErrorLabel.setText("No matching user record with this phone number");
+            } else {
+                attemptLogin();
+            }
         }
         return null;
     }
@@ -58,9 +62,7 @@ public class LoginPageController {
         } else if(usernameField.getText().length() != 12){
             usernameErrorLabel.setText("Username should be phone number in the format XXX-XXX-XXXX");
             return false;
-        }/* else if(searchUsername(usernameField.getText())){     // Not done, should return bool
-            usernameErrorLabel.setText("No matching user record with this phone number");
-        }*/
+        }
         return true;
     }
 
@@ -71,7 +73,14 @@ public class LoginPageController {
         } else if(passwordField.getText().length() < 8){
             passwordErrorLabel.setText("Password must be at least 8 characters long");
             return false;
-        } else if(true){    // Not done, should return bool
+        }
+        return true;
+    }
+
+    private void attemptLogin(){
+        if(UserSession.getInstance().login(DatabaseManager.findCustomerByPhone(usernameField.getText()), passwordField.getText())){
+            SceneManager.getInstance().navigateTo("home-page.fxml");
+        } else {
             if(loginAttemptsLeft <= 0){
                 startLockoutTimer();
             } else {
@@ -79,7 +88,6 @@ public class LoginPageController {
                 loginAttemptsLeft--;
             }
         }
-        return true;
     }
 
     private void startLockoutTimer(){

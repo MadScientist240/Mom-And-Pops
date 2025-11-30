@@ -4,6 +4,10 @@ import com.bobatea.momandpops.backend.models.Customer;
 import com.bobatea.momandpops.backend.models.DatabaseManager;
 import com.bobatea.momandpops.backend.models.UserSession;
 import com.bobatea.momandpops.frontend.SceneManager;
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
+import javafx.animation.RotateTransition;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -11,6 +15,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 public class SignupPageController {
 
@@ -18,7 +25,7 @@ public class SignupPageController {
     @FXML public TextField phoneField;
     @FXML public TextField emailField;
     @FXML public TextField addressField;
-    @FXML public PasswordField passwordField;
+    @FXML public TextField passwordField;
     @FXML public Label passwordErrorLabel;
     @FXML public Button signupButton;
     @FXML public Label addressErrorLabel;
@@ -27,6 +34,7 @@ public class SignupPageController {
     @FXML public Label nameErrorLabel;
     @FXML public Button loginButton;
     @FXML public Button homeButton;
+    @FXML public Label successLabel;
 
     @FXML
     public void handleSignupButton() {
@@ -37,12 +45,18 @@ public class SignupPageController {
         addressErrorLabel.setText("");
         passwordErrorLabel.setText("");
 
+        boolean nameFormattedProperly = checkNameFormatting();
+        boolean addressFormattedProperly = checkAddressFormatting();
+        boolean emailFormattedProperly = checkEmailFormatting();
+        boolean phoneFormattedProperly = checkPhoneNumberFormatting();
+        boolean passwordFormattedProperly = checkPasswordFormatting();
+
         if(
-                checkNameFormatting() &&
-                checkAddressFormatting() &&
-                checkEmailFormatting() &&
-                checkPhoneNumberFormatting() &&
-                checkPasswordFormatting()
+                nameFormattedProperly &&
+                addressFormattedProperly &&
+                emailFormattedProperly &&
+                phoneFormattedProperly &&
+                passwordFormattedProperly
         ){
             DatabaseManager.createCustomer(nameField.getText(),
                     phoneField.getText(),
@@ -50,6 +64,17 @@ public class SignupPageController {
                     addressField.getText(),
                     passwordField.getText()
             );
+
+            if(UserSession.getInstance().login(DatabaseManager.findCustomerByPhone(phoneField.getText()), passwordField.getText())){
+                successLabel.setText("Customer successfully created. Continuing to home page...");
+                successLabel.setVisible(true);
+                SceneManager.getInstance().navigateTo("home-page.fxml");
+            } else {
+                successLabel.setText("Failed to create new customer. Please check formatting...");
+                successLabel.setVisible(true);
+            }
+        } else {
+            System.out.println("Formatting Checks Failing");
         }
 
     }
@@ -59,6 +84,7 @@ public class SignupPageController {
         SceneManager.getInstance().navigateTo("login-page.fxml");
     }
 
+    @FXML
     public void handleHomeButton() {
         SceneManager.getInstance().navigateTo("home-page.fxml");
     }
@@ -80,6 +106,9 @@ public class SignupPageController {
             return false;
         } else if(phoneField.getText().length() != 12){
             phoneErrorLabel.setText("Username should be phone number in the format XXX-XXX-XXXX");
+            return false;
+        } else if (DatabaseManager.findCustomerByPhone(phoneField.getText()).isPresent()) {
+            phoneErrorLabel.setText("Username already linked to an account. Please login!");
             return false;
         }
         return true;
@@ -112,19 +141,15 @@ public class SignupPageController {
             passwordErrorLabel.setText("Password cannot be blank");
             return false;
         } else if(passwordField.getText().length() < 8){
-            passwordErrorLabel.setText("Password should be at least 15 characters long");
+            passwordErrorLabel.setText("Password should be at least 8 characters long");
             return false;
-        } else if(
-                passwordField.getText().contains("!") ||
-                passwordField.getText().contains("@") ||
-                passwordField.getText().contains("$") ||
-                passwordField.getText().contains("%") ||
-                passwordField.getText().contains("&") ||
-                passwordField.getText().contains("*")
-        ){
-            passwordErrorLabel.setText("Password must contain one of these characters: (!, @, $, %, &, *");
+        } else if(!passwordField.getText().matches(".*[!@$%&*].*")){
+            passwordErrorLabel.setText("Password must contain one of these characters: (!, @, $, %, &, *)");
             return false;
-        } else if (passwordField.getText().chars().anyMatch(Character::isUpperCase)) {
+        } else if (!passwordField.getText().matches(".*\\d.*")) {
+            passwordErrorLabel.setText("Password must contain at least 1 number");
+            return false;
+        } else if (!passwordField.getText().chars().anyMatch(Character::isUpperCase)) {
             passwordErrorLabel.setText("Password must contain at least one upper case letter");
             return false;
         }

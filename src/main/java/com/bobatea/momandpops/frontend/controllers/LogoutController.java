@@ -47,6 +47,7 @@ public class LogoutController {
         new Thread(task).start();
     }
 
+    @FXML
     private void startLoadingAnimation(){
         RotateTransition rotate = new RotateTransition(Duration.seconds(1.5), spinningImage);
         rotate.setByAngle(360);

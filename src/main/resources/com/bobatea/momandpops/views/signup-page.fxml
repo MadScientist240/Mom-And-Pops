@@ -33,12 +33,14 @@
                     <Label fx:id="addressErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
                 </AnchorPane>
 
-                <PasswordField fx:id="passwordField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Password" />
+                <TextField fx:id="passwordField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Password" />
                 <AnchorPane maxWidth="300.0" prefWidth="300.0">
                     <Label fx:id="passwordErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
                 </AnchorPane>
 
                 <Button fx:id="signupButton" onAction="#handleSignupButton" style="-fx-background-color: #C85050; -fx-text-fill: black; -fx-font-size: 13px; -fx-padding: 12 30; -fx-background-radius: 10; -fx-cursor: hand;" text="Sign Up" textAlignment="CENTER" />
+
+                <Label fx:id="successLabel" visible="false" styleClass="medium-text"/>
             </VBox>
 
             <VBox alignment="CENTER" prefHeight="600" prefWidth="600" spacing="15" style="-fx-background-color: white;">

@@ -1,5 +1,7 @@
 package com.bobatea.momandpops.backend.models;
 
+import com.bobatea.momandpops.frontend.SceneManager;
+
 import java.util.Optional;
 
 public class UserSession {
@@ -25,11 +27,13 @@ public class UserSession {
         return currentCustomer;
     }
 
-    public void login(Optional<Customer> customer){
-        if(customer.isPresent()){
+    public boolean login(Optional<Customer> customer, String password){
+        if(customer.isPresent() && customer.get().getPassword().equals(password)){
             this.currentCustomer = customer.get();
             this.isLoggedIn = true;
+            return true;
         }
+        return false;
     }
 
     public void logout(){
