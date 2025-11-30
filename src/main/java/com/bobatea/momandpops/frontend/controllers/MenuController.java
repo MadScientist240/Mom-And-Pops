@@ -1,5 +1,6 @@
 package com.bobatea.momandpops.frontend.controllers;
 
+import com.bobatea.momandpops.backend.models.DatabaseManager;
 import com.bobatea.momandpops.backend.models.Item;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,11 +33,8 @@ public class MenuController {
             navigationHeaderController.showLogo(false);
             navigationHeaderController.setTitle("Menu");
         }
+        itemsGrid.getChildren().clear();
         loadCategories();
-
-        /*for(Item item : DatabaseManager.getAllItems()){
-            this.createItemCard(item, (item.hasColors || item.hasToppings || item.hasSizes || item.hasCrust));
-        }*/
     }
 
     private void loadCategories(){
@@ -90,8 +88,12 @@ public class MenuController {
         itemsView.setVisible(true);
 
         categoryTitle.setText(category);
-
         itemsGrid.getChildren().clear();
+
+        for (Item item : DatabaseManager.getMenuItemsByCategory(category)) {
+            boolean customizable = item.hasColors || item.hasCrust || item.hasSizes || item.hasToppings;
+            itemsGrid.getChildren().add(createItemCard(item, customizable));
+        }
     }
 
     @FXML
@@ -127,21 +129,12 @@ public class MenuController {
 
         Button interaction = new Button();
 
-        if(isCustomizeable) {
-            interaction.setText("Customize");
-            interaction.setStyle("-fx-background-color: #4CAF50; " +
-                    "-fx-text-fill: white; " +
-                    "-fx-padding: 8 20; " +
-                    "-fx-cursor: hand;");
-            interaction.setOnAction(e -> openCustomizePopup(item));
-        } else {
-            interaction.setText("Add to Cart");
-            interaction.setStyle("-fx-background-color: #4CAF50; " +
-                    "-fx-text-fill: white; " +
-                    "-fx-padding: 8 20; " +
-                    "-fx-cursor: hand;");
-            interaction.setOnAction(e -> openCustomizePopup(item));
-        }
+        interaction.setText(isCustomizeable ? "Customize" : "Add to Cart");
+        interaction.setStyle("-fx-background-color: #4CAF50; " +
+                "-fx-text-fill: white; " +
+                "-fx-padding: 8 20; " +
+                "-fx-cursor: hand;");
+        interaction.setOnAction(e -> openCustomizePopup(item));
 
         card.getChildren().addAll(imagePlaceholder, nameLabel, priceLabel, interaction);
         return card;
@@ -155,7 +148,7 @@ public class MenuController {
             Parent root = loader.load();
             Stage popup = new Stage();
             popup.setTitle("Customize Item");
-            ItemPopupController pc = (ItemPopupController) loader.getController();
+            ItemPopupController pc = loader.getController();
             pc.setItem(item);
             popup.initModality(Modality.APPLICATION_MODAL);
             popup.setScene(new Scene(root));

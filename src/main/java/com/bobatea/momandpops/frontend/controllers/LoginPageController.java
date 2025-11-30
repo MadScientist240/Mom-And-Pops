@@ -1,95 +1,133 @@
 package com.bobatea.momandpops.frontend.controllers;
 
+import com.bobatea.momandpops.backend.models.DatabaseManager;
+import com.bobatea.momandpops.backend.models.Customer;
 import com.bobatea.momandpops.backend.models.UserSession;
 import com.bobatea.momandpops.frontend.SceneManager;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.util.Optional;
+
 public class LoginPageController {
 
-    @FXML TextField usernameField;
-    @FXML PasswordField passwordField;
-    @FXML Label usernameErrorLabel;
-    @FXML Label passwordErrorLabel;
-    @FXML Button loginButton;
+    @FXML private TextField usernameField;      // phone number in format XXX-XXX-XXXX
+    @FXML private PasswordField passwordField;
+    @FXML private Label usernameErrorLabel;
+    @FXML private Label passwordErrorLabel;
+    @FXML private Button loginButton;
 
-    private int loginAttemptsLeft = 5;
+    private int loginAttemptsLeft = 3;
+    private boolean isLockedOut = false;
 
     public void backButton() {
         SceneManager.getInstance().navigateToLast();
     }
 
     @FXML
-    public void handleSignupButton() {
+    private void handleSignupButton() {
         SceneManager.getInstance().navigateTo("signup-page.fxml");
     }
 
     @FXML
-    public EventHandler<ActionEvent> handleLoginButton() {
-        // Clear the last error text
+    private void handleLoginButton(ActionEvent event) {
+        attemptLogin();
+    }
+
+    private void attemptLogin() {
+        if (isLockedOut) {
+            // Ignore clicks while locked out
+            return;
+        }
+
+        // Clear previous errors
         usernameErrorLabel.setText("");
         passwordErrorLabel.setText("");
 
-        boolean usernameFormattedProperly = checkUsernameFormatting();
-        boolean passwordFormattedProperly = checkPasswordFormatting();
+        String phone = usernameField.getText().trim();
+        String password = passwordField.getText();
 
-        if(usernameFormattedProperly && passwordFormattedProperly){
-            UserSession.getInstance().login();
-            SceneManager.getInstance().navigateToLast();
+        // Basic format checks
+        if (!checkUsernameFormatting(phone) | !checkPasswordFormatting(password)) {
+            return;
         }
-        return null;
+
+        // Look up customer in our "database"
+        Optional<Customer> customerOpt = DatabaseManager.findCustomerByPhone(phone);
+
+        if (customerOpt.isEmpty()) {
+            usernameErrorLabel.setText("No matching user record with this phone number");
+            return;
+        }
+
+        Customer customer = customerOpt.get();
+
+        // Password check
+        if (!customer.getPassword().equals(password)) {
+            handleWrongPassword();
+            return;
+        }
+
+        // Success: log in and go back
+        UserSession.getInstance().login(customer);
+        SceneManager.getInstance().navigateToLast();
     }
 
-    private boolean checkUsernameFormatting(){
-        if(usernameField.getText().isBlank()){
+    private boolean checkUsernameFormatting(String phone){
+        if (phone.isBlank()) {
             usernameErrorLabel.setText("Username cannot be blank");
             return false;
-        } else if(usernameField.getText().length() != 12){
+        } else if (phone.length() != 12 || phone.charAt(3) != '-' || phone.charAt(7) != '-') {
             usernameErrorLabel.setText("Username should be phone number in the format XXX-XXX-XXXX");
             return false;
-        }/* else if(searchUsername(usernameField.getText())){     // Not done, should return bool
-            usernameErrorLabel.setText("No matching user record with this phone number");
-        }*/
+        }
         return true;
     }
 
-    private boolean checkPasswordFormatting(){
-        if(passwordField.getText().isBlank()){
+    private boolean checkPasswordFormatting(String password){
+        if (password.isBlank()) {
             passwordErrorLabel.setText("Password cannot be blank");
             return false;
-        } else if(passwordField.getText().length() < 12){
-            passwordErrorLabel.setText("Password doesn't meet length requirement");
+        } else if (password.length() < 8) {
+            passwordErrorLabel.setText("Password must be at least 8 characters");
             return false;
-        } else if(true){    // Not done, should return bool
-            if(loginAttemptsLeft <= 0){
-                startLockoutTimer();
-            } else {
-                passwordErrorLabel.setText("Password is incorrect. " + loginAttemptsLeft + ((loginAttemptsLeft == 1) ? " try left" : " tries left"));
-                loginAttemptsLeft--;
-            }
         }
         return true;
+    }
+
+    private void handleWrongPassword() {
+        if (loginAttemptsLeft <= 1) {
+            startLockoutTimer();
+        } else {
+            loginAttemptsLeft--;
+            passwordErrorLabel.setText(
+                    "Password is incorrect. " + loginAttemptsLeft +
+                            (loginAttemptsLeft == 1 ? " try left" : " tries left")
+            );
+        }
     }
 
     private void startLockoutTimer(){
-        loginButton.setOnAction(null);  // Remove login action so they cant spam the timer
-        Task<Void> task = new Task<Void>() {
+        isLockedOut = true;
+        loginButton.setDisable(true);
+
+        Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                for (int s = 3; s > 0; s--){
+                // Lock for 30 seconds
+                for (int s = 30; s > 0; s--) {
                     final int count = s;
-
-                    // Update UI on JavaFX thread
-                    Platform.runLater(() -> {
-                        passwordErrorLabel.setText("Password incorrect. Please wait " + count + " seconds before trying again.");
-                    });
+                    Platform.runLater(() ->
+                            passwordErrorLabel.setText(
+                                    "Too many attempts. Please wait " + count + " seconds."
+                            )
+                    );
                     Thread.sleep(1000);
                 }
                 return null;
@@ -97,8 +135,10 @@ public class LoginPageController {
         };
 
         task.setOnSucceeded(e -> {
+            isLockedOut = false;
+            loginAttemptsLeft = 3;
+            loginButton.setDisable(false);
             passwordErrorLabel.setText("");
-            loginButton.setOnAction(handleLoginButton());
         });
 
         new Thread(task).start();

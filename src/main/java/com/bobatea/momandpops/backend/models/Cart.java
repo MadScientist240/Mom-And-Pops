@@ -1,13 +1,9 @@
 package com.bobatea.momandpops.backend.models;
 
-import impl.org.controlsfx.collections.MappingChange;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Cart {
-    private ArrayList<CustomizedItem> itemsInCart = new ArrayList<CustomizedItem>();
+    private ArrayList<CustomizedItem> itemsInCart = new ArrayList<>();
     private static Cart instance;
 
     public Cart(){}

@@ -66,7 +66,7 @@ public class ItemPopupController {
     private void configurePopup(){
         itemNameLabel.setText(item.name);
 
-        // Pull size options
+        // Size options
         if(item.hasSizes){
             for(String size : item.getSizes().keySet()){
                 addSizeOption(size + " +(" + item.getSizes().get(size) + ")");
@@ -75,7 +75,7 @@ public class ItemPopupController {
             setVboxVisibility(sizeSection, false);
         }
 
-        // Pull topping options
+        // Topping options
         if(item.hasToppings){
             for(String topping : item.getToppings().keySet()){
                 addToppingOption(topping + " +(" + item.getToppings().get(topping) + ")");
@@ -84,7 +84,7 @@ public class ItemPopupController {
             setVboxVisibility(toppingsSection, false);
         }
 
-        // Pull color options
+        // Crust options
         if(item.hasCrust){
             for(String crust : item.getCrusts().keySet()){
                 addCrustOption(crust + " +(" + item.getCrusts().get(crust) + ")");
@@ -93,7 +93,7 @@ public class ItemPopupController {
             setVboxVisibility(crustSection, false);
         }
 
-        // Pull color options
+        // Color options
         if(item.hasColors){
             for(String color : item.getColors()){
                 addColorOption(color);
@@ -107,14 +107,14 @@ public class ItemPopupController {
         errorContainer.getChildren().clear();
         CustomizedItem cartItem = new CustomizedItem(item.name, item.getBasePrice());
 
-        if(item.getType() == "MENU"){
+        if ("MENU".equals(item.getType())) {
             RadioButton selectedSize = (RadioButton) sizeToggleGroup.getSelectedToggle();
             RadioButton selectedCrust = (RadioButton) crustToggleGroup.getSelectedToggle();
+
             if(selectedCrust == null){
                 setErrorLabel("Please pick a crust type");
                 return;
             } else if(selectedSize == null){
-                Label sizeError = new Label();
                 setErrorLabel("Please pick a size");
                 return;
             } else {
@@ -125,23 +125,30 @@ public class ItemPopupController {
                 cartItem.setSize(sizeString, item.getSizes().get(sizeString));
             }
 
+            boolean toppingChosen = false;
             for(Node node : toppingsContainer.getChildren()){
-                if(node instanceof CheckBox && ((CheckBox) node).isSelected()){
-                    String strippedToppingName = stripSelectionName(((CheckBox) node).getText());
-                    cartItem.addSelectedTopping(strippedToppingName, item.getToppings().get(strippedToppingName));
-                } else {
-                    setErrorLabel("Please pick at least 1 topping");
-                    return;
+                if(node instanceof CheckBox cb && cb.isSelected()){
+                    toppingChosen = true;
+                    String strippedToppingName = stripSelectionName(cb.getText());
+                    cartItem.addSelectedTopping(
+                            strippedToppingName,
+                            item.getToppings().get(strippedToppingName)
+                    );
                 }
             }
-        } else if(item.getType() == "MERCH"){
+            if(item.hasToppings && !toppingChosen){
+                setErrorLabel("Please pick at least 1 topping");
+                return;
+            }
+
+        } else if ("MERCH".equals(item.getType())) {
             RadioButton selectedSize = (RadioButton) sizeToggleGroup.getSelectedToggle();
             RadioButton selectedColor = (RadioButton) colorToggleGroup.getSelectedToggle();
+
             if(selectedColor == null){
                 setErrorLabel("Please pick a color");
                 return;
             } else if(selectedSize == null){
-                Label sizeError = new Label();
                 setErrorLabel("Please pick a size");
                 return;
             } else {
@@ -159,14 +166,13 @@ public class ItemPopupController {
 
     @FXML
     public void handleCancel() {
-        System.out.println("Cancelling item config");
         closePopup();
     }
 
     public void decreaseQuantity() {
         if (quantity > 1){
-        quantity--;
-        quantityField.setText(String.valueOf(quantity));
+            quantity--;
+            quantityField.setText(String.valueOf(quantity));
         }
     }
 

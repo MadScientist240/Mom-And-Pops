@@ -2,10 +2,11 @@ package com.bobatea.momandpops.backend.models;
 
 public class UserSession {
     private static UserSession instance;
-    private boolean isLoggedIn = false;
-    private String username;
 
-    public UserSession(){}
+    private boolean isLoggedIn = false;
+    private Customer currentCustomer;
+
+    private UserSession(){}
 
     public static UserSession getInstance() {
         if(instance == null){
@@ -18,15 +19,17 @@ public class UserSession {
         return isLoggedIn;
     }
 
-    // TODO: Handle login and logout procedures
-        // Intake username and password
-    public void login(){
-        // Extra for DEVELOPMENT
-        isLoggedIn = true;
+    public Customer getCurrentCustomer() {
+        return currentCustomer;
+    }
+
+    public void login(Customer customer){
+        this.currentCustomer = customer;
+        this.isLoggedIn = true;
     }
 
     public void logout(){
-        // Extra for DEVELOPMENT
-        isLoggedIn = false;
+        this.currentCustomer = null;
+        this.isLoggedIn = false;
     }
 }

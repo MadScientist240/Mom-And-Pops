@@ -3,7 +3,6 @@ package com.bobatea.momandpops.frontend.controllers;
 import com.bobatea.momandpops.backend.models.UserSession;
 import com.bobatea.momandpops.frontend.SceneManager;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -21,13 +20,13 @@ public class HeaderController {
         buildProfileMenu();
     }
 
-    // Method to show logo
+    // Show or hide logo
     public void showLogo(boolean show) {
         logoImage.setVisible(show);
         logoImage.setManaged(show);
     }
 
-    // Method to show/set title
+    // Show or set title
     public void setTitle(String title) {
         if (title != null && !title.isEmpty()) {
             titleLabel.setText(title);
@@ -94,7 +93,7 @@ public class HeaderController {
                 SceneManager.getInstance().navigateTo("logout-page.fxml");
                 break;
 
-            case "Signup":
+            case "Sign Up":
                 SceneManager.getInstance().navigateTo("signup-page.fxml");
                 break;
 
