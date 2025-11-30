@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import java.lang.String?>
-<StackPane alignment="TOP_CENTER" style="-fx-background-color: #d4c5a9;"
-           xmlns="http://javafx.com/javafx/11.0.14-internal"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.bobatea.momandpops.frontend.controllers.LoginPageController">
-    <VBox alignment="center" styleClass="tan-background">
-        <HBox alignment="CENTER" prefHeight="600" prefWidth="1200" style="-fx-background-color: white;">
-            <VBox alignment="CENTER" prefHeight="517.0" prefWidth="600" spacing="15.0" style="-fx-background-color: white;">
+<StackPane alignment="TOP_CENTER" style="-fx-background-color: #d4c5a9;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bobatea.momandpops.frontend.controllers.LoginPageController">
+
+    <VBox alignment="CENTER" style="-fx-background-color: #d4c5a9; -fx-padding: 10;">
+        <StackPane.margin>
+            <Insets bottom="50" left="50" right="50" top="50" />
+        </StackPane.margin>
+
+        <HBox alignment="CENTER" prefHeight="600" prefWidth="1200" style="-fx-background-color: white; -fx-border-color: #d4c5a9; -fx-border-width: 10; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: white;">
+            <VBox alignment="CENTER" prefHeight="517.0" prefWidth="600" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 15;">
                 <TextField fx:id="usernameField" alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="35.0" promptText="Phone Number" />
                 <AnchorPane maxWidth="300.0" prefWidth="300.0">
                     <Label fx:id="usernameErrorLabel" textFill="RED" underline="true" AnchorPane.leftAnchor="12.0" />
@@ -24,26 +26,23 @@
                 <Button fx:id="loginButton" onAction="#handleLoginButton" style="-fx-background-color: #C85050; -fx-text-fill: black; -fx-font-size: 13px; -fx-padding: 12 30; -fx-background-radius: 10; -fx-cursor: hand;" text="Login" textAlignment="CENTER" />
             </VBox>
 
-            <VBox alignment="CENTER" prefHeight="600" prefWidth="600" spacing="15" style="-fx-background-color: white;">
-                <Label styleClass="medium-text" text="Dont have an account?" />
-                <Button fx:id="signupButton" onAction="#handleSignupButton" style="-fx-background-color: #C85050; -fx-text-fill: black; -fx-font-size: 13px; -fx-padding: 12 30; -fx-background-radius: 10; -fx-cursor: hand;" text="Signup" textAlignment="CENTER" />
+            <VBox alignment="CENTER" prefHeight="600" prefWidth="600" spacing="15" style="-fx-background-color: white; -fx-background-radius: 15;">
+                <Label styleClass="medium-text" text="Don't have an account?" />
+                <Button fx:id="signupButton" onAction="#handleSignupButton" style="-fx-background-color: #C85050; -fx-text-fill: black; -fx-font-size: 13px; -fx-padding: 12 30; -fx-background-radius: 10; -fx-cursor: hand;" text="Sign Up" textAlignment="CENTER" />
             </VBox>
         </HBox>
-
     </VBox>
-    <Button fx:id="homeButton" translateX="-600" translateY="10"
-                style="-fx-background-color: transparent; -fx-border-color: transparent;"
-                alignment="TOP_LEFT"
-                onAction="#handleHomeButton">
+
+    <Button fx:id="homeButton" alignment="TOP_LEFT" onAction="#handleHomeButton" style="-fx-background-color: transparent; -fx-border-color: transparent;" translateX="-600" translateY="10">
         <graphic>
             <ImageView fitHeight="30" preserveRatio="true">
-                <Image url="@../icons/home.png"/>
+                <Image url="@../icons/home.png" />
             </ImageView>
         </graphic>
         <styleClass>
-            <String fx:value="navigation-menu"/>
+            <String fx:value="navigation-menu" />
         </styleClass>
     </Button>
-     <Label alignment="TOP_CENTER" styleClass="page-title" text="Login" translateY="10"/>
+    <Label alignment="TOP_CENTER" styleClass="page-title" text="Login" translateY="5" />
 
 </StackPane>

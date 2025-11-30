@@ -15,7 +15,7 @@
     <fx:include fx:id="navigationHeader" source="navigation-header.fxml"/>
 
     <!-- Items View -->
-    <VBox fx:id="itemsView" visible="false" style="-fx-background-color: #d4c5a9;">
+    <VBox fx:id="itemsView" style="-fx-background-color: #d4c5a9;">
         <padding>
             <Insets top="20" right="30" bottom="30" left="30"/>
         </padding>

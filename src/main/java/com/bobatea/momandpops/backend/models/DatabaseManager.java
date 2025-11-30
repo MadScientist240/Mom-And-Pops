@@ -133,7 +133,7 @@ public class DatabaseManager {
                     10.99,
                     true,   // isMenuItem
                     true,   // hasSizes
-                    ""
+                    "/com/bobatea/momandpops/images/cheesepizza.png"
             );
             cheesePizza.addTopping("Extra Cheese", 1.50);
             cheesePizza.addTopping("Pepperoni", 1.75);
@@ -142,9 +142,9 @@ public class DatabaseManager {
 
             // Drink
             Item soda = new Item(
-                    "Fountain Soda",
+                    "Sprite (2L)",
                     2,
-                    "Soft drink",
+                    "Soft drinks",
                     1.99,
                     true,
                     false,
@@ -157,14 +157,17 @@ public class DatabaseManager {
                     "Mom & Pop's T-Shirt",
                     100,
                     "Branded shirt",
-                    19.99,
+                    10.00,
                     false,   // merch
                     true,
-                    ""
+                    "/com/bobatea/momandpops/images/t-shirt.png"
             );
             shirt.addColor("Red");
             shirt.addColor("Black");
             shirt.addColor("White");
+            shirt.addSize("S", 0.00);
+            shirt.addSize("M", 2.00);
+            shirt.addSize("L", 5.00);
             itemsCache.add(shirt);
         }
         return itemsCache;

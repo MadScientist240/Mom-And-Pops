@@ -2,6 +2,8 @@ package com.bobatea.momandpops.frontend.controllers;
 
 import com.bobatea.momandpops.backend.models.DatabaseManager;
 import com.bobatea.momandpops.backend.models.Item;
+import com.bobatea.momandpops.backend.models.UserSession;
+import com.bobatea.momandpops.frontend.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -10,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -53,13 +57,23 @@ public class MenuController {
                 "-fx-border-radius: 10; " +
                 "-fx-background-radius: 10; " +
                 "-fx-cursor: hand;");
-        card.setPrefSize(300, 300);
+        card.setPrefSize(200, 200);
 
-        Label icon = new Label("🍕");
-        icon.setStyle("-fx-font-size: 48px;");
+        Label icon = new Label();
+
+        if(categoryName.equals("Pizza")){
+            icon.setText("\uD83C\uDF55");
+        } else if(categoryName.equals("Desserts")){
+            icon.setText("\uD83C\uDF70");
+        } else if (categoryName.equals("Drinks")) {
+            icon.setText("\uD83E\uDD5B");
+        } else if (categoryName.equals("Sides")) {
+            icon.setText("\uD83C\uDF5F");
+        }
+        icon.setStyle("-fx-font-size: 48px; -fx-text-fill: #666");
 
         Label name = new Label(categoryName);
-        name.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-font-color: #000000;");
+        name.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #666");
 
         card.setOnMouseEntered(e -> card.setStyle(
                 "-fx-background-color: #f0f0f0; " +
@@ -110,19 +124,31 @@ public class MenuController {
                 "-fx-border-color: #ddd; " +
                 "-fx-border-radius: 5; " +
                 "-fx-background-radius: 5;");
-        card.setPrefSize(180, 220);
+        card.setPrefSize(210, 250);
 
-        // Placeholder for image
-        Label imagePlaceholder = new Label("[Image]");
-        imagePlaceholder.setStyle("-fx-background-color: #e0e0e0; " +
-                "-fx-pref-width: 150; " +
-                "-fx-pref-height: 120; " +
-                "-fx-alignment: center;");
+        ImageView imageView = new ImageView();
+        try {
+            Image image = new Image(getClass().getResourceAsStream(item.imagePath));
+            imageView.setImage(image);
+            imageView.setFitWidth(150);
+            imageView.setFitHeight(120);
+            imageView.setPreserveRatio(true);
+            card.getChildren().add(imageView);
+        } catch (NullPointerException e) {
+            // Fallback to placeholder if image not found
+            Label imagePlaceholder = new Label("[Image]");
+            imagePlaceholder.setStyle("-fx-background-color: #e0e0e0; " +
+                    "-fx-pref-width: 150; " +
+                    "-fx-pref-height: 120; " +
+                    "-fx-alignment: center;");
+            card.getChildren().add(imagePlaceholder);
+        }
 
         Label nameLabel = new Label(item.name);
-        nameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        nameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #666");
         nameLabel.setWrapText(true);
         nameLabel.setMaxWidth(150);
+        nameLabel.setAlignment(Pos.CENTER);
 
         Label priceLabel = new Label("$" + String.format("%.2f", item.getBasePrice()));
         priceLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #666;");
@@ -136,26 +162,30 @@ public class MenuController {
                 "-fx-cursor: hand;");
         interaction.setOnAction(e -> openCustomizePopup(item));
 
-        card.getChildren().addAll(imagePlaceholder, nameLabel, priceLabel, interaction);
+        card.getChildren().addAll(nameLabel, priceLabel, interaction);
         return card;
     }
 
     private void openCustomizePopup(Item item) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/bobatea/momandpops/views/item-popup.fxml")
-            );
-            Parent root = loader.load();
-            Stage popup = new Stage();
-            popup.setTitle("Customize Item");
-            ItemPopupController pc = loader.getController();
-            pc.setItem(item);
-            popup.initModality(Modality.APPLICATION_MODAL);
-            popup.setScene(new Scene(root));
-            popup.showAndWait();
-        } catch (Exception e) {
-            System.err.println("Failed to load popup");
-            e.printStackTrace();
+        if(UserSession.getInstance().isLoggedIn()){
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/com/bobatea/momandpops/views/item-popup.fxml")
+                );
+                Parent root = loader.load();
+                Stage popup = new Stage();
+                popup.setTitle("Customize Item");
+                ItemPopupController pc = loader.getController();
+                pc.setItem(item);
+                popup.initModality(Modality.APPLICATION_MODAL);
+                popup.setScene(new Scene(root));
+                popup.showAndWait();
+            } catch (Exception e) {
+                System.err.println("Failed to load popup");
+                e.printStackTrace();
+            }
+        } else {
+            SceneManager.getInstance().navigateTo("login-page.fxml");
         }
     }
 }

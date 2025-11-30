@@ -19,7 +19,7 @@
 /* ===== TEXT ===== */
 .page-title {
     -fx-font-size: 35px;
-    -fx-font-weight: bold;
+    /*-fx-font-weight: bold;*/
     -fx-text-fill: #333333;
 }
 
