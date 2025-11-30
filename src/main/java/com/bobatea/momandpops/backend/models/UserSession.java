@@ -1,5 +1,7 @@
 package com.bobatea.momandpops.backend.models;
 
+import java.util.Optional;
+
 public class UserSession {
     private static UserSession instance;
 
@@ -23,9 +25,11 @@ public class UserSession {
         return currentCustomer;
     }
 
-    public void login(Customer customer){
-        this.currentCustomer = customer;
-        this.isLoggedIn = true;
+    public void login(Optional<Customer> customer){
+        if(customer.isPresent()){
+            this.currentCustomer = customer.get();
+            this.isLoggedIn = true;
+        }
     }
 
     public void logout(){

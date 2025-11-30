@@ -1,6 +1,7 @@
 package com.bobatea.momandpops.frontend.controllers;
 
 import com.bobatea.momandpops.backend.models.Customer;
+import com.bobatea.momandpops.backend.models.DatabaseManager;
 import com.bobatea.momandpops.backend.models.UserSession;
 import com.bobatea.momandpops.frontend.SceneManager;
 import javafx.event.ActionEvent;
@@ -43,14 +44,12 @@ public class SignupPageController {
                 checkPhoneNumberFormatting() &&
                 checkPasswordFormatting()
         ){
-            Customer newUser = new Customer(
-                    nameField.getText(),
+            DatabaseManager.createCustomer(nameField.getText(),
                     phoneField.getText(),
                     emailField.getText(),
                     addressField.getText(),
-                    passwordField.getText(),
-                    0);
-            UserSession.getInstance().login(newUser);
+                    passwordField.getText()
+            );
         }
 
     }

@@ -45,7 +45,7 @@ public class LoginPageController {
         boolean passwordFormattedProperly = checkPasswordFormatting();
 
         if(usernameFormattedProperly && passwordFormattedProperly){
-            UserSession.getInstance().login((Customer) DatabaseManager.findCustomerByPhone(usernameField.getText()));
+            UserSession.getInstance().login(DatabaseManager.findCustomerByPhone(usernameField.getText()));
             SceneManager.getInstance().navigateToLast();
         }
         return null;
