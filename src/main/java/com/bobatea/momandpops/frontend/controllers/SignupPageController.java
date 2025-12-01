@@ -141,5 +141,12 @@ public class SignupPageController {
         }
         return true;
     }
+    if (UserSession.getInstance().login(
+        DatabaseManager.findCustomerByPhone(phoneField.getText()),
+        passwordField.getText()
+)) {
+    ...
+}
+
 }
 
