@@ -1,3 +1,3 @@
-1|James Miller|678-151-3595|hungrydude@yahoo.com|123 Main St, Marietta GA|hungry4PIZZA!|50
-2|Sarah Lopez|404-992-3314|slopez@gmail.com|88 Peach Tree Rd, Atlanta GA|Sarah$123|10
-3|Ethan Park|470-660-8821|epark@yahoo.com|22 Pizza Ln, Kennesaw GA|Epark!45|0
+1|Brice Polk|678-151-3595|hungrydude@yahoo.com|123 Main St, Marietta GA|hungry4PIZZA!|50
+2|Muyi Wohigren|404-992-3314|muyiwg@gmail.com|88 Peach Tree Rd, Atlanta GA|Sarah$123|10
+3|Noel Chi|470-660-8821|noechi@yahoo.com|22 Pizza Ln, Kennesaw GA|Epark!45|0
