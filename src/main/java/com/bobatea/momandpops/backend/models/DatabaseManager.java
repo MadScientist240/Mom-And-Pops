@@ -1,8 +1,5 @@
 package com.bobatea.momandpops.backend.models;
 
-import com.bobatea.momandpops.backend.models.Customer;
-import com.bobatea.momandpops.backend.models.Item;
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
@@ -123,44 +120,66 @@ public class DatabaseManager {
         if (itemsCache == null) {
             itemsCache = new ArrayList<>();
 
-            // --- Example menu items (enough to demo) ---
-
-            // Pizza
-            Item cheesePizza = new Item(
-                    "Cheese Pizza",
+            // --- Pizza Base ---
+            Item pizzaBase = new Item(
+                    "Custom Pizza",
                     1,
-                    "Classic cheese pizza",
-                    10.99,
-                    true,   // isMenuItem
-                    true,   // hasSizes
-                    "/com/bobatea/momandpops/images/cheesepizza.png"
+                    "Build your own pizza",
+                    8.99,
+                    "MENU",   // type
+                    true,     // hasSizes
+                    "/images/pizza.png"
             );
-            cheesePizza.addTopping("Extra Cheese", 1.50);
-            cheesePizza.addTopping("Pepperoni", 1.75);
-            cheesePizza.addTopping("Mushroom", 1.00);
-            itemsCache.add(cheesePizza);
 
-            // Drink
-            Item soda = new Item(
-                    "Sprite (2L)",
-                    2,
-                    "Soft drinks",
-                    1.99,
-                    true,
-                    false,
-                    "/com/bobatea/momandpops/images/sprite.png"
-            );
-            itemsCache.add(soda);
+            // Crusts
+            pizzaBase.addOption("Crust", "Thin", 0.00);
+            pizzaBase.addOption("Crust", "Regular", 0.50);
+            pizzaBase.addOption("Crust", "Pan", 1.00);
 
-            // Merch
+            // Sizes
+            pizzaBase.addSize("Small", 0.00);
+            pizzaBase.addSize("Medium", 2.00);
+            pizzaBase.addSize("Large", 4.00);
+            pizzaBase.addSize("Extra Large", 6.00);
+
+            // Sauces
+            pizzaBase.addOption("Sauce", "Marinara", 0.00);
+            pizzaBase.addOption("Sauce", "Alfredo", 0.50);
+
+            // Toppings (Veg + Meat)
+            pizzaBase.addTopping("Cheese", 1.00);
+            pizzaBase.addTopping("Onion", 0.75);
+            pizzaBase.addTopping("Pineapple", 1.00);
+            pizzaBase.addTopping("Jalapeno", 0.75);
+            pizzaBase.addTopping("Olives", 1.00);
+            pizzaBase.addTopping("Mushroom", 1.00);
+            pizzaBase.addTopping("Pepperoni", 1.50);
+            pizzaBase.addTopping("Chicken", 1.75);
+            pizzaBase.addTopping("Italian Sausage", 1.75);
+            pizzaBase.addTopping("Bacon", 1.75);
+            pizzaBase.addTopping("Beef", 2.00);
+
+            itemsCache.add(pizzaBase);
+
+            // --- Beverages ---
+            itemsCache.add(new Item("Coke", 2, "Soft drink", 1.99, "MENU", false, "/images/coke.png"));
+            itemsCache.add(new Item("Sprite", 3, "Soft drink", 1.99, "MENU", false, "/images/sprite.png"));
+            itemsCache.add(new Item("Fanta", 4, "Soft drink", 1.99, "MENU", false, "/images/fanta.png"));
+
+            // --- Desserts ---
+            itemsCache.add(new Item("Chocolate Chunk Cookie", 5, "Dessert", 2.99, "MENU", false, "/images/cookie.png"));
+            itemsCache.add(new Item("Cinnamon Roll", 6, "Dessert", 3.49, "MENU", false, "/images/cinnamon.png"));
+            itemsCache.add(new Item("Molten Lava Cake", 7, "Dessert", 4.99, "MENU", false, "/images/lava.png"));
+
+            // --- Merch Example ---
             Item shirt = new Item(
                     "Mom & Pop's T-Shirt",
                     100,
                     "Branded shirt",
                     10.00,
-                    false,   // merch
+                    "MERCH",
                     true,
-                    "/com/bobatea/momandpops/images/t-shirt.png"
+                    "/images/tshirt.png"
             );
             shirt.addColor("Red");
             shirt.addColor("Black");
@@ -189,12 +208,15 @@ public class DatabaseManager {
         String lower = categoryName.toLowerCase();
         return getMenuItems().stream()
                 .filter(i -> i.getDescription().toLowerCase().contains(lower)
-                          || i.name.toLowerCase().contains(lower))
+                          || i.getName().toLowerCase().contains(lower))
                 .collect(Collectors.toList());
     }
 
-    // TODO FIXME
-    public static List<Order> getOrdersByCustomer() {
-        return null;
+    // ===== ORDER STUB =====
+    public static List<Order> getOrdersByCustomer(Customer customer) {
+        // TODO: implement persistence of orders
+        return new ArrayList<>();
     }
 }
+
+
