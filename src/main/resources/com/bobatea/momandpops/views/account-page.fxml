@@ -5,35 +5,206 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="720" prefWidth="1280"
-      xmlns="http://javafx.com/javafx/17.0.12"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.bobatea.momandpops.frontend.controllers.AccountController">
+<VBox prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bobatea.momandpops.frontend.controllers.AccountController">
 
     <!-- Header Section -->
     <fx:include fx:id="navigationHeader" source="navigation-header.fxml" />
        <HBox prefHeight="720.0" prefWidth="1280.0" styleClass="tan-background" stylesheets="@../styles/styles.css">
-             <HBox style="-fx-background-color: white; -fx-background-radius: 15;">
+             <HBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: black; -fx-border-radius: 8;">
                    <VBox fx:id="sectionContainer" prefHeight="658.0" prefWidth="280.0" spacing="10">
-                         <Label alignment="TOP_LEFT" prefHeight="33.0" prefWidth="280.0" text="My Information" underline="true">
+                         <Label fx:id="personalInfoLabel" alignment="TOP_LEFT" onMouseClicked="#setInfoView" prefHeight="33.0" prefWidth="280.0" text="Personal Info." underline="true">
                             <font>
                                <Font size="24.0" />
                             </font>
                          </Label>
-                         <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="33.0" prefWidth="280.0" text="Card Info">
+                         <Label fx:id="cardInfoLabel" alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" onMouseClicked="#setCardView" prefHeight="33.0" prefWidth="280.0" text="Card Info">
                             <font>
                                <Font size="24.0" />
                             </font>
                          </Label>
+            <Label fx:id="deleteAccountLabel" alignment="TOP_LEFT" layoutX="30.0" layoutY="75.0" onMouseClicked="#setDeletionView" prefHeight="33.0" prefWidth="280.0" text="Delete Account">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
                       <HBox.margin>
                          <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
                       </HBox.margin>
+            <padding>
+               <Insets left="20.0" top="20.0" />
+            </padding>
                    </VBox>
-                   <Pane fx:id="contentContainer" prefHeight="658.0" prefWidth="921.0">
+                   <StackPane fx:id="contentContainer" prefHeight="658.0" prefWidth="921.0">
                       <HBox.margin>
                          <Insets bottom="35.0" right="35.0" top="35.0" />
                       </HBox.margin>
-                   </Pane>
+            <children>
+               <VBox fx:id="deleteAccountView" alignment="CENTER" layoutX="135.0" layoutY="60.0" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
+                  <children>
+                     <Label fx:id="deletionLabel" text="Are you sure you want to delete your account?">
+                        <font>
+                           <Font size="24.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="TOP_CENTER" prefHeight="105.0" prefWidth="732.0" spacing="50.0" styleClass="medium-text">
+                        <children>
+                           <Button fx:id="deletionConfirmButton" mnemonicParsing="false" onAction="#handleDeletionConfirm" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #4CAF50;" text="Confirm" textFill="#fffefe" />
+                           <Button fx:id="deletionCancelButton" mnemonicParsing="false" onAction="#handleDeletionCancel" prefHeight="39.0" prefWidth="90.0" style="-fx-background-color: #C85050;" text="Cancel" textFill="#fffefe" />
+                        </children>
+                     </HBox>
+                  </children>
+               </VBox>
+               <VBox fx:id="infoView" prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                     <HBox alignment="CENTER" prefHeight="29.0" prefWidth="842.0" spacing="140.0">
+                        <children>
+                           <Label styleClass="medium-text" text="Name:" />
+                           <TextField fx:id="nameField" prefHeight="25.0" prefWidth="400.0" />
+                        </children>
+                        <VBox.margin>
+                           <Insets />
+                        </VBox.margin>
+                        <padding>
+                           <Insets bottom="25.0" />
+                        </padding>
+                     </HBox>
+                     <Label fx:id="nameErrorField" layoutX="-20.0" prefHeight="20.0" prefWidth="556.0" textFill="RED" translateY="-25.0" underline="true">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="CENTER" layoutX="130.0" layoutY="70.0" prefHeight="29.0" prefWidth="842.0" spacing="68.0">
+                        <children>
+                           <Label styleClass="medium-text" text="Phone Number:" />
+                           <TextField fx:id="phoneField" prefHeight="25.0" prefWidth="400.0" />
+                        </children>
+                        <padding>
+                           <Insets bottom="25.0" />
+                        </padding>
+                     </HBox>
+                     <Label fx:id="phoneErrorLabel" layoutX="130.0" layoutY="127.0" prefHeight="20.0" prefWidth="556.0" textFill="RED" translateY="-25.0" underline="true">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="CENTER" layoutX="10.0" layoutY="87.0" prefHeight="29.0" prefWidth="842.0" spacing="146.0">
+                        <children>
+                           <Label styleClass="medium-text" text="Email:" />
+                           <TextField fx:id="emailField" prefHeight="25.0" prefWidth="400.0" />
+                        </children>
+                        <padding>
+                           <Insets bottom="25.0" />
+                        </padding>
+                     </HBox>
+                     <Label fx:id="emailErrorLabel" layoutX="10.0" layoutY="144.0" prefHeight="20.0" prefWidth="556.0" textFill="RED" translateY="-25.0" underline="true">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="CENTER" layoutX="10.0" layoutY="164.0" prefHeight="29.0" prefWidth="842.0" spacing="125.0">
+                        <children>
+                           <Label styleClass="medium-text" text="Address:" />
+                           <TextField fx:id="addressField" prefHeight="25.0" prefWidth="400.0" />
+                        </children>
+                        <padding>
+                           <Insets bottom="25.0" />
+                        </padding>
+                     </HBox>
+                     <Label fx:id="addressErrorLabel" layoutX="10.0" layoutY="221.0" prefHeight="20.0" prefWidth="556.0" textFill="RED" translateY="-25.0" underline="true">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="CENTER" layoutX="10.0" layoutY="241.0" prefHeight="29.0" prefWidth="842.0" spacing="114.0">
+                        <children>
+                           <Label styleClass="medium-text" text="Password:" />
+                           <TextField fx:id="passwordField" prefHeight="25.0" prefWidth="400.0" />
+                        </children>
+                        <padding>
+                           <Insets bottom="25.0" />
+                        </padding>
+                     </HBox>
+                     <Label fx:id="passwordErrorLabel" layoutX="10.0" layoutY="298.0" prefHeight="20.0" prefWidth="556.0" textFill="RED" translateY="-25.0" underline="true">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="TOP_CENTER" prefHeight="105.0" prefWidth="732.0" spacing="50.0" styleClass="medium-text">
+                        <children>
+                           <Button fx:id="infoSaveButton" mnemonicParsing="false" onAction="#handleInfoSaveButton" prefWidth="85.0" style="-fx-background-color: #4CAF50;" text="Save" textFill="#fffefe" />
+                           <Button fx:id="infoCancelButton" mnemonicParsing="false" onAction="#handleInfoCancelButton" prefHeight="39.0" prefWidth="85.0" style="-fx-background-color: #C85050;" text="Cancel" textFill="#fffefe" />
+                        </children>
+                        <VBox.margin>
+                           <Insets />
+                        </VBox.margin>
+                     </HBox>
+                  </children>
+                  <StackPane.margin>
+                     <Insets top="70.0" />
+                  </StackPane.margin>
+               </VBox>
+               <VBox fx:id="cardView" layoutX="135.0" layoutY="60.0" prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                     <HBox alignment="CENTER" prefHeight="29.0" prefWidth="842.0" spacing="100.0">
+                        <children>
+                           <Label styleClass="medium-text" text="Card Number:" />
+                           <TextField fx:id="cardNumberField" prefHeight="25.0" prefWidth="400.0" />
+                        </children>
+                        <VBox.margin>
+                           <Insets />
+                        </VBox.margin>
+                        <padding>
+                           <Insets bottom="30.0" />
+                        </padding>
+                     </HBox>
+                     <Label fx:id="cardNumberErrorLabel" layoutX="-20.0" prefHeight="20.0" prefWidth="556.0" textFill="RED" translateY="-25.0" underline="true">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="CENTER" layoutX="130.0" layoutY="70.0" prefHeight="29.0" prefWidth="842.0" spacing="135.0">
+                        <children>
+                           <Label styleClass="medium-text" text="Exp. Date:" />
+                           <TextField fx:id="expDateField" prefHeight="25.0" prefWidth="400.0" />
+                        </children>
+                        <padding>
+                           <Insets bottom="30.0" />
+                        </padding>
+                     </HBox>
+                     <Label fx:id="expDateErrorLabel" layoutX="130.0" layoutY="127.0" prefHeight="20.0" prefWidth="556.0" textFill="RED" translateY="-25.0" underline="true">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="CENTER" layoutX="10.0" layoutY="87.0" prefHeight="29.0" prefWidth="842.0" spacing="175.0">
+                        <children>
+                           <Label styleClass="medium-text" text="CVV:" />
+                           <TextField fx:id="cvvField" prefHeight="25.0" prefWidth="400.0" />
+                        </children>
+                        <padding>
+                           <Insets bottom="30.0" />
+                        </padding>
+                     </HBox>
+                     <Label fx:id="cvvErrorLabel" layoutX="10.0" layoutY="144.0" prefHeight="20.0" prefWidth="556.0" textFill="RED" translateY="-25.0" underline="true">
+                        <font>
+                           <Font size="14.0" />
+                        </font>
+                     </Label>
+                     <HBox alignment="TOP_CENTER" prefHeight="105.0" prefWidth="732.0" spacing="50.0" styleClass="medium-text">
+                        <children>
+                           <Button fx:id="cardSaveButton" mnemonicParsing="false" onAction="#handleCardSaveButton" prefWidth="85.0" style="-fx-background-color: #4CAF50;" text="Save" textFill="#fffefe" />
+                        </children>
+                     </HBox>
+                  </children>
+                  <StackPane.margin>
+                     <Insets />
+                  </StackPane.margin>
+                  <padding>
+                     <Insets top="100.0" />
+                  </padding>
+               </VBox>
+            </children>
+                   </StackPane>
                 <HBox.margin>
                    <Insets bottom="35.0" left="50.0" right="50.0" top="35.0" />
                 </HBox.margin>

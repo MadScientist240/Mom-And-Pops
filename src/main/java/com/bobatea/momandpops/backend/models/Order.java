@@ -14,10 +14,11 @@ public class Order {
     private String arrivalTime;
     private int rewardPointsEarned;
     private int rewardPointsUsed;
+    private String date;
 
     public Order(int id, int customerId, Integer employeeId, Integer receiptId, double totalCost,
                  String paymentMethod, String orderType, boolean completionStatus, String deliveryAddress,
-                 String deliveryInstructions, String arrivalTime, int rewardPointsEarned, int rewardPointsUsed) {
+                 String deliveryInstructions, String arrivalTime, int rewardPointsEarned, int rewardPointsUsed, String date) {
         this.id = id;
         this.customerId = customerId;
         this.employeeId = employeeId;
@@ -31,6 +32,7 @@ public class Order {
         this.arrivalTime = arrivalTime;
         this.rewardPointsEarned = rewardPointsEarned;
         this.rewardPointsUsed = rewardPointsUsed;
+        this.date = date;
     }
 
     public int getId() {
@@ -89,7 +91,7 @@ public class Order {
         this.orderType = orderType;
     }
 
-    public boolean isCompletionStatus() {
+    public boolean getCompletionStatus() {
         return completionStatus;
     }
 
@@ -135,5 +137,13 @@ public class Order {
 
     public void setRewardPointsUsed(int rewardPointsUsed) {
         this.rewardPointsUsed = rewardPointsUsed;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

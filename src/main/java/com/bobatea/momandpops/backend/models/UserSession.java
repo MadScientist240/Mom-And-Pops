@@ -7,7 +7,7 @@ import java.util.Optional;
 public class UserSession {
     private static UserSession instance;
 
-    private boolean isLoggedIn = true;
+    private boolean isLoggedIn = false;
     private Customer currentCustomer;
 
     private UserSession(){}

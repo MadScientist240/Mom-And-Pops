@@ -42,10 +42,6 @@ public class CartController {
     private boolean discountApplied = false;
 
     public void initialize(){
-        Label test = new Label("TEST LABEL");
-        test.setStyle("-fx-font-size: 30; -fx-background-color: yellow;");
-        itemContainer.getChildren().add(test);
-
         // Configure header
         if (navigationHeaderController != null) {
             navigationHeaderController.showLogo(false);

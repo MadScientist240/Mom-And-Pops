@@ -192,4 +192,9 @@ public class DatabaseManager {
                           || i.name.toLowerCase().contains(lower))
                 .collect(Collectors.toList());
     }
+
+    // TODO FIXME
+    public static List<Order> getOrdersByCustomer() {
+        return null;
+    }
 }

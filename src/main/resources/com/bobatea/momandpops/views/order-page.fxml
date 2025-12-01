@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bobatea.momandpops.frontend.controllers.OrderController">
+    <!-- Background VBox -->
+    <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="tan-background" stylesheets="@../styles/styles.css">
+        <!-- Header Section -->
+        <fx:include fx:id="navigationHeader" source="navigation-header.fxml" />
+    </VBox>
+
+    <!-- Content Views -->
+    <VBox StackPane.alignment="TOP_CENTER">
+        <StackPane.margin>
+            <Insets top="65.0" />
+        </StackPane.margin>
+
+        <StackPane VBox.vgrow="ALWAYS">
+            <!-- Empty View -->
+            <VBox fx:id="emptyView" alignment="CENTER" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: black; -fx-border-radius: 8;" styleClass="medium-text" stylesheets="@../styles/styles.css">
+                <StackPane.margin>
+                    <Insets bottom="25.0" left="35.0" right="35.0" top="25.0" />
+                </StackPane.margin>
+                <Label prefHeight="27.0" prefWidth="374.0" text="You don't have any orders yet. Go make one!" textAlignment="CENTER" />
+                <Button fx:id="menuButton" mnemonicParsing="false" prefHeight="46.0" prefWidth="86.0" styleClass="medium-text" text="Menu" onAction="#handleMenuButton"/>
+            </VBox>
+
+            <!-- Orders List View -->
+            <ScrollPane fx:id="ordersView" fitToWidth="true" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: black; -fx-border-radius: 8;" visible="false">
+                <StackPane.margin>
+                    <Insets bottom="25.0" left="35.0" right="35.0" top="25.0" />
+                </StackPane.margin>
+                <VBox fx:id="ordersContainer" spacing="10" style="-fx-padding: 15;" />
+            </ScrollPane>
+
+            <!-- Order Detail View -->
+            <VBox fx:id="orderDetailedView" spacing="15" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: black; -fx-border-radius: 8; -fx-padding: 20;" visible="false">
+                <StackPane.margin>
+                    <Insets bottom="25.0" left="35.0" right="35.0" top="25.0" />
+                </StackPane.margin>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="backButton" onAction="#handleBackButton" style="-fx-background-color: transparent; -fx-font-size: 14px; -fx-cursor: hand;" text="← Back" />
+                    <Label fx:id="orderIDLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Order #" />
+                </HBox>
+
+                <Label fx:id="statusLabel" styleClass="medium-text" />
+                <Label fx:id="costLabel" styleClass="medium-text" />
+                <Label fx:id="paymentMethodLabel" styleClass="medium-text" />
+                <Label fx:id="orderTypeLabel" styleClass="medium-text" />
+                <Label fx:id="employeeLabel" styleClass="medium-text" />
+                <Label fx:id="earnedPointsLabel" styleClass="medium-text" />
+                <Label fx:id="lostPointsLabel" styleClass="medium-text" />
+                <Button fx:id="receiptButton" onAction="#handleReceiptButton" style="-fx-background-color: #C85050; -fx-text-fill: white;" text="Receipt" />
+            </VBox>
+        </StackPane>
+    </VBox>
+</StackPane>

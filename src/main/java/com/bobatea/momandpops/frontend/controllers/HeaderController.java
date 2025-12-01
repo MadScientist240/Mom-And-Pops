@@ -98,7 +98,7 @@ public class HeaderController {
                 break;
 
             case "My Orders":
-                SceneManager.getInstance().navigateTo("orders-page.fxml");
+                SceneManager.getInstance().navigateTo("order-page.fxml");
                 break;
 
             case "My Account":
