@@ -7,7 +7,7 @@ import java.util.*;
 public class DatabaseManager {
 
     private static final Path DATA_DIR = Paths.get("data");
-    private static final Path CUSTOMERS_FILE = DATA_DIR.resolve("customers.text");
+    private static final Path CUSTOMERS_FILE = DATA_DIR.resolve("customers.txt");
     private static final Path ITEMS_FILE = DATA_DIR.resolve("items.text");
     private static final Path ORDERS_FILE = DATA_DIR.resolve("orders.text");
 
