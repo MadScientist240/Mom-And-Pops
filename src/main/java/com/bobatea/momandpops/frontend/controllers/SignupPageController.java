@@ -1,4 +1,3 @@
-package com.bobatea.momandpops.frontend.controllers;
 
 import com.bobatea.momandpops.backend.models.Customer;
 import com.bobatea.momandpops.backend.models.DatabaseManager;
