@@ -179,49 +179,56 @@ public class ItemPopupController {
             RadioButton selectedSize = (RadioButton) sizeToggleGroup.getSelectedToggle();
             RadioButton selectedCrust = (RadioButton) crustToggleGroup.getSelectedToggle();
 
-            if(selectedCrust == null){
-                setErrorLabel("Please pick a crust type");
-                return;
-            } else if(selectedSize == null){
-                setErrorLabel("Please pick a size");
-                return;
-            } else {
-                String crustString = stripSelectionName(selectedCrust.getText());
-                cartItem.setCrust(crustString, item.getCrusts().get(crustString));
-
-                String sizeString = stripSelectionName(selectedSize.getText());
-                cartItem.setSize(sizeString, item.getSizes().get(sizeString));
-            }
-
-            boolean toppingChosen = false;
-            for(Node node : toppingsContainer.getChildren()){
-                if(node instanceof CheckBox cb && cb.isSelected()){
-                    toppingChosen = true;
-                    String strippedToppingName = stripSelectionName(cb.getText());
-                    cartItem.addModification(
-                            strippedToppingName,
-                            item.getToppings().get(strippedToppingName)
-                    );
+            if (item.hasCrust) {
+                if (selectedCrust == null) {
+                    setErrorLabel("Please pick a crust type");
+                    return;
+                } else {
+                    String crustString = stripSelectionName(selectedCrust.getText());
+                    cartItem.setCrust(crustString, item.getCrusts().get(crustString));
                 }
             }
-            if(item.hasToppings && !toppingChosen){
-                setErrorLabel("Please pick at least 1 topping");
-                return;
+
+            if (item.hasSizes) {
+                if (selectedSize == null) {
+                    setErrorLabel("Please pick a size");
+                    return;
+                } else {
+                    String sizeString = stripSelectionName(selectedSize.getText());
+                    cartItem.setSize(sizeString, item.getSizes().get(sizeString));
+                }
+            }
+
+            if (item.hasToppings) {
+                boolean toppingChosen = false;
+                for (Node node : toppingsContainer.getChildren()) {
+                    if (node instanceof CheckBox cb && cb.isSelected()) {
+                        toppingChosen = true;
+                        String strippedToppingName = stripSelectionName(cb.getText());
+                        cartItem.addModification(
+                                strippedToppingName,
+                                item.getToppings().get(strippedToppingName)
+                        );
+                    }
+                }
+                if (!toppingChosen) {
+                    setErrorLabel("Please pick at least 1 topping");
+                    return;
+                }
             }
 
         } else if ("MERCH".equals(item.getType())) {
             RadioButton selectedSize = (RadioButton) sizeToggleGroup.getSelectedToggle();
             RadioButton selectedColor = (RadioButton) colorToggleGroup.getSelectedToggle();
 
-            if(selectedColor == null){
+            if (selectedColor == null) {
                 setErrorLabel("Please pick a color");
                 return;
-            } else if(selectedSize == null){
+            } else if (selectedSize == null) {
                 setErrorLabel("Please pick a size");
                 return;
             } else {
                 cartItem.setColor(selectedColor.getText());
-
                 String sizeString = stripSelectionName(selectedSize.getText());
                 cartItem.setSize(sizeString, item.getSizes().get(sizeString));
             }
@@ -230,13 +237,14 @@ public class ItemPopupController {
         cartItem.setQuantity(Integer.parseInt(quantityField.getText()));
 
         if (isEditMode) {
-            Cart.getInstance().removeItem(customItem);  // Remove old one
-            Cart.getInstance().addItem(cartItem);         // Add updated one
+            Cart.getInstance().removeItem(customItem);
+            Cart.getInstance().addItem(cartItem);
         } else {
             Cart.getInstance().addItem(cartItem);
         }
         closePopup();
     }
+
 
     @FXML
     public void handleCancel() {
