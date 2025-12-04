@@ -1,8 +1,14 @@
 package com.bobatea.momandpops.backend.models;
 
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class DatabaseManager {
 
@@ -241,14 +247,34 @@ public class DatabaseManager {
             int rewardEarned = Integer.parseInt(parts[11].trim());
             int rewardUsed = Integer.parseInt(parts[12].trim());
 
-            return new Order(id, customerId, employeeId, receiptId, totalCost,
-                    paymentMethod, orderType, complete, deliveryAddr,
-                    deliveryInst, arrivalTime, rewardEarned, rewardUsed);
+
+            String extraInfo = "";
+            if (parts.length > 13) {
+                extraInfo = parts[13].trim();
+            }
+
+            return new Order(
+                    id,
+                    customerId,
+                    employeeId,
+                    receiptId,
+                    totalCost,
+                    paymentMethod,
+                    orderType,
+                    complete,
+                    deliveryAddr,
+                    deliveryInst,
+                    arrivalTime,
+                    rewardEarned,
+                    rewardUsed,
+                    extraInfo
+            );
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return null;
         }
     }
+
 
     public static List<Order> getOrdersByCustomer() {
         Customer current = UserSession.getInstance().getCurrentCustomer();

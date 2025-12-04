@@ -21,7 +21,9 @@ public class Item {
     private HashMap<String, Double> sizes = new HashMap<String, Double>();
     private HashMap<String, Double> crusts = new HashMap<String, Double>();
 
-    public Item(String name, int itemId, String description, double startingPrice, boolean isMenuItem, boolean hasSizes, String imagePath){
+    public Item(String name, int itemId, String description, double startingPrice,
+                boolean isMenuItem, boolean hasSizes, String imagePath) {
+
         this.name = name;
         this.itemId = itemId;
         this.basePrice = startingPrice;
@@ -29,25 +31,41 @@ public class Item {
         this.hasSizes = hasSizes;
         this.imagePath = imagePath;
 
-        // ALWAYS initialize HashMaps to avoid null pointer
         this.sizes = new HashMap<>();
         this.crusts = new HashMap<>();
         this.toppings = new HashMap<>();
         this.colors = new ArrayList<>();
 
-        if(isMenuItem){
+        if (isMenuItem) {
             type = "MENU";
+
             if (hasSizes) {
-                sizes.putAll(Map.of("Small",0.00, "Medium",1.50, "Large",2.25, "Extra Large",3.75));
+                sizes.putAll(Map.of(
+                        "Small", 0.00,
+                        "Medium", 1.50,
+                        "Large", 2.25,
+                        "Extra Large", 3.75
+                ));
+
+                crusts.putAll(Map.of(
+                        "Thin", 1.00,
+                        "Regular", 0.00,
+                        "Pan", 2.00
+                ));
+
+                this.hasToppings = true;
+                this.hasCrust = true;
+            } else {
+                this.hasToppings = false;
+                this.hasCrust = false;
             }
-            crusts.putAll(Map.of("Thin", 1.00, "Regular", 0.00, "Pan", 2.00));
-            this.hasToppings = true;
-            this.hasCrust = true;
+
         } else {
             type = "MERCH";
             this.hasColors = true;
         }
     }
+
 
     public void addTopping(String topping, double charge){
         toppings.put(topping, charge);

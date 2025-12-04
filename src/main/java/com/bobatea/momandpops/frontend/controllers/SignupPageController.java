@@ -4,10 +4,18 @@ import com.bobatea.momandpops.backend.models.Customer;
 import com.bobatea.momandpops.backend.models.DatabaseManager;
 import com.bobatea.momandpops.backend.models.UserSession;
 import com.bobatea.momandpops.frontend.SceneManager;
+import javafx.animation.RotateTransition;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 public class SignupPageController {
 
@@ -16,48 +24,57 @@ public class SignupPageController {
     @FXML public TextField emailField;
     @FXML public TextField addressField;
     @FXML public TextField passwordField;
-
     @FXML public Label passwordErrorLabel;
+    @FXML public Button signupButton;
     @FXML public Label addressErrorLabel;
     @FXML public Label emailErrorLabel;
     @FXML public Label phoneErrorLabel;
     @FXML public Label nameErrorLabel;
-    @FXML public Label successLabel;
-
-    @FXML public Button signupButton;
     @FXML public Button loginButton;
     @FXML public Button homeButton;
+    @FXML public Label successLabel;
 
     @FXML
     public void handleSignupButton() {
+        // Clear the last error text
         nameErrorLabel.setText("");
         phoneErrorLabel.setText("");
         emailErrorLabel.setText("");
         addressErrorLabel.setText("");
         passwordErrorLabel.setText("");
-        successLabel.setText("");
-        successLabel.setVisible(false);
 
-        boolean nameOk = checkNameFormatting();
-        boolean addrOk = checkAddressFormatting();
-        boolean emailOk = checkEmailFormatting();
-        boolean phoneOk = checkPhoneNumberFormatting();
-        boolean passwordOk = checkPasswordFormatting();
+        boolean nameFormattedProperly = checkNameFormatting();
+        boolean addressFormattedProperly = checkAddressFormatting();
+        boolean emailFormattedProperly = checkEmailFormatting();
+        boolean phoneFormattedProperly = checkPhoneNumberFormatting();
+        boolean passwordFormattedProperly = checkPasswordFormatting();
 
-        if (nameOk && addrOk && emailOk && phoneOk && passwordOk) {
-            Customer c = DatabaseManager.createCustomer(
-                    nameField.getText(),
+        if(
+                nameFormattedProperly &&
+                addressFormattedProperly &&
+                emailFormattedProperly &&
+                phoneFormattedProperly &&
+                passwordFormattedProperly
+        ){
+            DatabaseManager.createCustomer(nameField.getText(),
                     phoneField.getText(),
                     emailField.getText(),
                     addressField.getText(),
                     passwordField.getText()
             );
 
-            UserSession.getInstance().login();
-            successLabel.setText("Customer successfully created. Continuing to home page...");
-            successLabel.setVisible(true);
-            SceneManager.getInstance().navigateTo("home-page.fxml");
+            if(UserSession.getInstance().login(DatabaseManager.findCustomerByPhone(phoneField.getText()), passwordField.getText())){
+                successLabel.setText("Customer successfully created. Continuing to home page...");
+                successLabel.setVisible(true);
+                SceneManager.getInstance().navigateTo("home-page.fxml");
+            } else {
+                successLabel.setText("Failed to create new customer. Please check formatting...");
+                successLabel.setVisible(true);
+            }
+        } else {
+            System.out.println("Formatting Checks Failing");
         }
+
     }
 
     @FXML
@@ -70,83 +87,70 @@ public class SignupPageController {
         SceneManager.getInstance().navigateTo("home-page.fxml");
     }
 
-    public boolean checkNameFormatting() {
-        String name = nameField.getText();
-        if (name.isBlank()) {
+    public boolean checkNameFormatting(){
+        if(nameField.getText().isBlank()){
             nameErrorLabel.setText("Name should not be blank");
             return false;
-        } else if (name.split(" ").length != 2) {
-            nameErrorLabel.setText("Format: First Last");
+        } else if(nameField.getText().split(" ").length != 2){
+            nameErrorLabel.setText("Name should follow the format [First] [Last]");
             return false;
         }
         return true;
     }
 
-    public boolean checkPhoneNumberFormatting() {
-        String phone = phoneField.getText();
-        if (phone.isBlank()) {
-            phoneErrorLabel.setText("Phone cannot be blank");
+    public boolean checkPhoneNumberFormatting(){
+        if(phoneField.getText().isBlank()){
+            phoneErrorLabel.setText("Username cannot be blank");
             return false;
-        } else if (phone.length() != 12) {
-            phoneErrorLabel.setText("Format: XXX-XXX-XXXX");
+        } else if(phoneField.getText().length() != 12){
+            phoneErrorLabel.setText("Username should be phone number in the format XXX-XXX-XXXX");
             return false;
-        } else if (DatabaseManager.findCustomerByPhone(phone).isPresent()) {
-            phoneErrorLabel.setText("Account already exists");
-            return false;
-        }
-        return true;
-    }
-
-    public boolean checkAddressFormatting() {
-        String addr = addressField.getText();
-        if (addr.isBlank()) {
-            addressErrorLabel.setText("Address cannot be blank");
-            return false;
-        } else if (addr.split(",").length != 4) {
-            addressErrorLabel.setText("Format: Street, City, State, Zip");
+        } else if (DatabaseManager.findCustomerByPhone(phoneField.getText()).isPresent()) {
+            phoneErrorLabel.setText("Username already linked to an account. Please login!");
             return false;
         }
         return true;
     }
 
-    public boolean checkEmailFormatting() {
-        String email = emailField.getText();
-        if (email.isBlank()) {
+    public boolean checkAddressFormatting(){
+        if(addressField.getText().isBlank()){
+            addressErrorLabel.setText("Address should not be blank");
+            return false;
+        } else if(addressField.getText().split(",").length != 4){
+            addressErrorLabel.setText("Address should follow the format [Street], [City], [State], [Zip Code]");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkEmailFormatting(){
+        if(emailField.getText().isBlank()){
             emailErrorLabel.setText("Email cannot be blank");
             return false;
-        } else if (!email.contains("@")) {
-            emailErrorLabel.setText("Invalid email format");
+        } else if(!emailField.getText().contains("@")){
+            emailErrorLabel.setText("Email should have @gmail.com, @outlook.com, @hotmail.com, @aol.com, or similar");
             return false;
         }
         return true;
     }
 
-    public boolean checkPasswordFormatting() {
-        String pwd = passwordField.getText();
-        if (pwd.isBlank()) {
+    public boolean checkPasswordFormatting(){
+        if(passwordField.getText().isBlank()){
             passwordErrorLabel.setText("Password cannot be blank");
             return false;
-        } else if (pwd.length() < 8) {
-            passwordErrorLabel.setText("Min 8 characters");
+        } else if(passwordField.getText().length() < 8){
+            passwordErrorLabel.setText("Password should be at least 8 characters long");
             return false;
-        } else if (!pwd.matches(".*[!@$%&*].*")) {
-            passwordErrorLabel.setText("Must contain ! @ $ % & *");
+        } else if(!passwordField.getText().matches(".*[!@$%&*].*")){
+            passwordErrorLabel.setText("Password must contain one of these characters: (!, @, $, %, &, *)");
             return false;
-        } else if (!pwd.matches(".*\\d.*")) {
-            passwordErrorLabel.setText("Must contain a number");
+        } else if (!passwordField.getText().matches(".*\\d.*")) {
+            passwordErrorLabel.setText("Password must contain at least 1 number");
             return false;
-        } else if (pwd.chars().noneMatch(Character::isUpperCase)) {
-            passwordErrorLabel.setText("Must contain uppercase");
+        } else if (!passwordField.getText().chars().anyMatch(Character::isUpperCase)) {
+            passwordErrorLabel.setText("Password must contain at least one upper case letter");
             return false;
         }
         return true;
     }
-    if (UserSession.getInstance().login(
-        DatabaseManager.findCustomerByPhone(phoneField.getText()),
-        passwordField.getText()
-)) {
-    ...
 }
-
-}
-

@@ -1,12 +1,23 @@
-Classic Cheese|1231|Classic cheese pizza with tomato sauce and mozzarella.|12.00|true|true|/images/classic_cheese.png
-Garden Veggie|1233|Veggie pizza topped with mushrooms, onions, peppers, and olives.|13.50|true|true|/images/garden_veggie.png
-Classic Pepperoni|1235|Pepperoni pizza with tomato sauce and mozzarella.|13.00|true|true|/images/classic_pepperoni.png
-Hawaiian Hulu|1237|Ham and pineapple pizza on your choice of crust.|13.50|true|true|/images/hawaiian_hulu.png
-Build Your Own|1239|Start with cheese and add any toppings you like.|11.00|true|true|/images/build_your_own.png
-2 Liter Fanta|1241|Chilled 2 liter bottle of Fanta.|3.50|true|false|/images/2l_fanta.png
-2 Liter Sprite|1243|Chilled 2 liter bottle of Sprite.|3.50|true|false|/images/2l_sprite.png
-2 Liter Coke|1245|Chilled 2 liter bottle of Coca-Cola.|3.50|true|false|/images/2l_coke.png
-Cinnamon Roll|1247|Warm cinnamon roll topped with icing.|4.00|true|false|/images/cinnamon_roll.png
-Molten Lava Cake|1249|Rich chocolate lava cake with a gooey center.|5.00|true|false|/images/molten_lava_cake.png
-Chocolate Chunk Cookie|1251|Fresh-baked chocolate chunk cookie.|2.50|true|false|/images/chocolate_chunk_cookie.png
+Classic Cheese|1001|Pizza - classic cheese pizza with mozzarella|12.00|true|true|/com/bobatea/momandpops/images/cheesepizza.png
+Garden Veggie|1002|Pizza - veggie pizza with fresh toppings|13.50|true|true|/com/bobatea/momandpops/images/veggiepizza.png
+Classic Pepperoni|1003|Pizza - pepperoni pizza with mozzarella|13.00|true|true|/com/bobatea/momandpops/images/pepperonipizza.png
+Hawaiian Hulu|1004|Pizza - ham and pineapple pizza|13.50|true|true|/com/bobatea/momandpops/images/hawaiianpizza.png
 
+Mom & Pops Hoodie|2001|Merch - cozy branded hoodie|35.00|false|false|/com/bobatea/momandpops/images/hoodie.png
+Mom & Pops T-Shirt|2002|Merch - branded t-shirt|20.00|false|false|/com/bobatea/momandpops/images/tshirt.png
+Mom & Pops Hat|2003|Merch - branded hat|18.00|false|false|/com/bobatea/momandpops/images/hat.png
+
+Sprite|3001|Lemon-lime soda|2.50|true|false|/com/bobatea/momandpops/images/sprite.png
+Pepsi|3002|Drinks - Pepsi cola|2.50|true|false|/com/bobatea/momandpops/images/pepsi.png
+Coca-Cola|3003|Drinks - Coca-Cola soda|2.50|true|false|/com/bobatea/momandpops/images/cocacola.png
+Water Bottle|3004|Drinks - bottled water|1.50|true|false|/com/bobatea/momandpops/images/water.png
+
+Mozzarella Sticks|4001|Sides - crispy mozzarella sticks with marinara|6.00|true|false|/com/bobatea/momandpops/images/mozzarellasticks.png
+Breadsticks|4002|Sides - fresh-baked breadsticks with butter|5.50|true|false|/com/bobatea/momandpops/images/breadsticks.png
+Garlic Bread|4003|Sides - toasted garlic bread with cheese|5.50|true|false|/com/bobatea/momandpops/images/garlicbread.png
+Chicken Wings|4004|Sides - buffalo chicken wings with dipping sauce|8.99|true|false|/com/bobatea/momandpops/images/chickenwings.png
+
+Brownies|5001|Desserts dessert - soft chocolate brownies|4.00|true|false|/com/bobatea/momandpops/images/brownies.png
+Cinnamon Sticks|5002|Desserts dessert - cinnamon sugar sticks with icing|5.00|true|false|/com/bobatea/momandpops/images/cinnamonsticks.png
+Ice Cream|5003|Desserts dessert - ice cream scoops|3.50|true|false|/com/bobatea/momandpops/images/icecream.png
+Chocolate Chip Cookie|5004|Desserts dessert - warm chocolate chip cookie|2.00|true|false|/com/bobatea/momandpops/images/cookie.png
